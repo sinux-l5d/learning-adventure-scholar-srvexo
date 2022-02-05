@@ -10,6 +10,12 @@ Avant de commencer à coder sur une nouvelle machine, il y a quelques étapes :
 
 Husky permet de lancer des scripts (voir plus bas) pour lancer les tests unitaires, formatter automatiquement le code et indiquer les erreurs de _lint_.
 
+## Commencer à developper
+
+Démarrer la base de données en mode developpement : `docker-compose -f docker-compose.dev.yaml`
+Démarrer l'application en mode developpement : `npm run start:dev`
+Démarrer les tests unitaires en mode developpement : `npm run test:dev`
+
 ## Scripts
 
 ### `npm run start:dev`
@@ -53,3 +59,4 @@ Permet comme `npm run prettier-format` de formatter le code, mais à chaque chan
 Un alias permet d'avoir des chemins plus propres lors d'imports, et de se passer de l'écriture relative à base de "../../".
 
 Les alias comme `@app` ou `@services/` doivent être écrit pour TypeScript dans `tsconfig.json` et pour JavaScript dans `package.json` (_moduleAliases).
+
