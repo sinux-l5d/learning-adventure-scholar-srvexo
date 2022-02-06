@@ -15,7 +15,7 @@
   "scripts": {
     "build": "rimraf ./build && tsc --build tsconfig.prod.json",
     "start:dev": "nodemon",
-    "start": "npm run build && node -r module-alias/register build/index.js",
+    "start": "node -r module-alias/register build/index.js",
     "lint": "eslint . --ext .ts",
     "prettier-format": "run-script-os",
     "prettier-format:win32": "prettier --config .prettierrc \"./(src|spec)/**/*.ts\" --write",
