@@ -4,12 +4,24 @@
   "description": "Service d'exercice du projet LA Web",
   "keywords": [],
   "contributors": [
-    { "name": "Simon LEONARD" },
-    { "name": "Clément RICHARDOT" },
-    { "name": "Paul DELIFER" },
-    { "name": "Simon PICHENOT" },
-    { "name": "Romain PAJEAN" },
-    { "name": "Romain NEGRO" }
+    {
+      "name": "Simon LEONARD"
+    },
+    {
+      "name": "Clément RICHARDOT"
+    },
+    {
+      "name": "Paul DELIFER"
+    },
+    {
+      "name": "Simon PICHENOT"
+    },
+    {
+      "name": "Romain PAJEAN"
+    },
+    {
+      "name": "Romain NEGRO"
+    }
   ],
   "main": "index.js",
   "scripts": {
@@ -45,6 +57,7 @@
     "eslint-plugin-prettier": "^4.0.0",
     "husky": "^7.0.4",
     "jest": "^27.4.5",
+    "lint-staged": "^12.3.3",
     "nodemon": "^2.0.15",
     "onchange": "^7.1.0",
     "prettier": "^2.5.1",
