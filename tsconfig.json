@@ -25,5 +25,11 @@
     "src/**/*.ts",
     "spec/**/*.ts"
   ],
-  "exclude" : [ ]
+  "exclude" : [ ],
+  "typedocOptions": {
+      "entryPoints": [
+          "src/app.ts"
+      ],
+      "out": "docs"
+  }
 }
