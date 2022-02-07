@@ -6,7 +6,7 @@
 <a href="#avant-de-développer" id="avant-de-développer" style="color: inherit; text-decoration: none;">
   <h2>Avant de développer</h2>
 </a>
-<p>Avant de commencer à coder sur une nouvelle machine, il y a quelques étapes : </p>
+<p>Avant de commencer à coder sur une nouvelle machine, il y a quelques étapes :</p>
 <ol>
 <li>Installer node en version <code>16.13.2</code> et npm. Vous pouvez installer la version de node avec la commande <code>nvm use</code> de Node Version Manager. Il installera la version écrite dans <code>.nvmrc</code>.</li>
 <li>Installer les dépendances : <code>npm install</code>.</li>
@@ -17,9 +17,12 @@
 <a href="#commencer-à-developper" id="commencer-à-developper" style="color: inherit; text-decoration: none;">
   <h2>Commencer à developper</h2>
 </a>
-<p>Démarrer la base de données en mode developpement : <code>docker-compose -f docker-compose.dev.yaml</code>
-Démarrer l&#39;application en mode developpement : <code>npm run start:dev</code>
-Démarrer les tests unitaires en mode developpement : <code>npm run test:dev</code></p>
+<ol>
+<li>Copier dev.example.env dans un fichier <code>.env</code></li>
+<li>Démarrer la base de données en mode developpement : <code>docker-compose -f docker-compose.dev.yaml</code></li>
+<li>Démarrer l&#39;application en mode developpement : <code>npm run start:dev</code></li>
+<li>Démarrer les tests unitaires en mode developpement : <code>npm run test:dev</code></li>
+</ol>
 
 <a href="#scripts" id="scripts" style="color: inherit; text-decoration: none;">
   <h2>Scripts</h2>

@@ -2,7 +2,7 @@
 
 ## Avant de développer
 
-Avant de commencer à coder sur une nouvelle machine, il y a quelques étapes : 
+Avant de commencer à coder sur une nouvelle machine, il y a quelques étapes :
 
 1. Installer node en version `16.13.2` et npm. Vous pouvez installer la version de node avec la commande `nvm use` de Node Version Manager. Il installera la version écrite dans `.nvmrc`.
 2. Installer les dépendances : `npm install`.
@@ -12,9 +12,10 @@ Husky permet de lancer des scripts (voir plus bas) pour lancer les tests unitair
 
 ## Commencer à developper
 
-Démarrer la base de données en mode developpement : `docker-compose -f docker-compose.dev.yaml`
-Démarrer l'application en mode developpement : `npm run start:dev`
-Démarrer les tests unitaires en mode developpement : `npm run test:dev`
+1. Copier dev.example.env dans un fichier `.env`
+2. Démarrer la base de données en mode developpement : `docker-compose -f docker-compose.dev.yaml`
+3. Démarrer l'application en mode developpement : `npm run start:dev`
+4. Démarrer les tests unitaires en mode developpement : `npm run test:dev`
 
 ## Scripts
 
@@ -58,5 +59,4 @@ Permet comme `npm run prettier-format` de formatter le code, mais à chaque chan
 
 Un alias permet d'avoir des chemins plus propres lors d'imports, et de se passer de l'écriture relative à base de "../../".
 
-Les alias comme `@app` ou `@services/` doivent être écrit pour TypeScript dans `tsconfig.json` et pour JavaScript dans `package.json` (_moduleAliases).
-
+Les alias comme `@app` ou `@services/` doivent être écrit pour TypeScript dans `tsconfig.json` et pour JavaScript dans `package.json` (\_moduleAliases).
