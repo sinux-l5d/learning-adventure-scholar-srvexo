@@ -4,7 +4,7 @@
 
 Avant de commencer à coder sur une nouvelle machine, il y a quelques étapes : 
 
-1. Installer node en version `XX.XX.XX` avec nvm (Node Version Manager) si besoin et npm.
+1. Installer node en version `16.13.2` et npm. Vous pouvez installer la version de node avec la commande `nvm use` de Node Version Manager. Il installera la version écrite dans `.nvmrc`.
 2. Installer les dépendances : `npm install`.
 3. Si pas déjà fait par l'étape précédente, préparez Husky pour le script de pre-commit : `npm run prepare`.
 
