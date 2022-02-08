@@ -1,0 +1,75 @@
+<!DOCTYPE html><html class="default"><head><meta charSet="utf-8"/><meta http-equiv="x-ua-compatible" content="IE=edge"/><title>service-exercice</title><meta name="description" content="Documentation for service-exercice"/><meta name="viewport" content="width=device-width, initial-scale=1"/><link rel="stylesheet" href="assets/style.css"/><link rel="stylesheet" href="assets/highlight.css"/><script async src="assets/search.js" id="search-script"></script></head><body><script>document.body.classList.add(localStorage.getItem("tsd-theme") || "os")</script><header><div class="tsd-page-toolbar"><div class="container"><div class="table-wrap"><div class="table-cell" id="tsd-search" data-base="."><div class="field"><label for="tsd-search-field" class="tsd-widget search no-caption">Search</label><input type="text" id="tsd-search-field"/></div><ul class="results"><li class="state loading">Preparing search index...</li><li class="state failure">The search index is not available</li></ul><a href="index.html" class="title">service-exercice</a></div><div class="table-cell" id="tsd-widgets"><div id="tsd-filter"><a href="#" class="tsd-widget options no-caption" data-toggle="options">Options</a><div class="tsd-filter-group"><div class="tsd-select" id="tsd-filter-visibility"><span class="tsd-select-label">All</span><ul class="tsd-select-list"><li data-value="public">Public</li><li data-value="protected">Public/Protected</li><li data-value="private" class="selected">All</li></ul></div> <input type="checkbox" id="tsd-filter-inherited" checked/><label class="tsd-widget" for="tsd-filter-inherited">Inherited</label><input type="checkbox" id="tsd-filter-externals" checked/><label class="tsd-widget" for="tsd-filter-externals">Externals</label></div></div><a href="#" class="tsd-widget menu no-caption" data-toggle="menu">Menu</a></div></div></div></div><div class="tsd-page-title"><div class="container"><h1>service-exercice</h1></div></div></header><div class="container container-main"><div class="row"><div class="col-8 col-content"><div class="tsd-panel tsd-typography">
+<a href="#la-web--service-d39exercices" id="la-web--service-d39exercices" style="color: inherit; text-decoration: none;">
+  <h1>LA Web | Service d&#39;exercices</h1>
+</a>
+
+<a href="#avant-de-développer" id="avant-de-développer" style="color: inherit; text-decoration: none;">
+  <h2>Avant de développer</h2>
+</a>
+<p>Avant de commencer à coder sur une nouvelle machine, il y a quelques étapes :</p>
+<ol>
+<li>Installer node en version <code>16.13.2</code> et npm. Vous pouvez installer la version de node avec la commande <code>nvm use</code> de Node Version Manager. Il installera la version écrite dans <code>.nvmrc</code>.</li>
+<li>Installer les dépendances : <code>npm install</code>.</li>
+<li>Si pas déjà fait par l&#39;étape précédente, préparez Husky pour le script de pre-commit : <code>npm run prepare</code>.</li>
+</ol>
+<p>Husky permet de lancer des scripts (voir plus bas) pour lancer les tests unitaires, formatter automatiquement le code et indiquer les erreurs de <em>lint</em>.</p>
+
+<a href="#commencer-à-developper" id="commencer-à-developper" style="color: inherit; text-decoration: none;">
+  <h2>Commencer à developper</h2>
+</a>
+<ol>
+<li>Copier dev.example.env dans un fichier <code>.env</code></li>
+<li>Démarrer la base de données en mode developpement : <code>docker-compose -f docker-compose.dev.yaml</code></li>
+<li>Démarrer l&#39;application en mode developpement : <code>npm run start:dev</code></li>
+<li>Démarrer les tests unitaires en mode developpement : <code>npm run test:dev</code></li>
+</ol>
+
+<a href="#scripts" id="scripts" style="color: inherit; text-decoration: none;">
+  <h2>Scripts</h2>
+</a>
+
+<a href="#npm-run-startdev" id="npm-run-startdev" style="color: inherit; text-decoration: none;">
+  <h3><code>npm run start:dev</code></h3>
+</a>
+<p>Permet de lancer l&#39;application en mode développement : l&#39;application est relancé à chanque modification de code.</p>
+<p>Il utilise <code>nodemon</code> et <code>ts-node</code>.</p>
+
+<a href="#npm-run-start" id="npm-run-start" style="color: inherit; text-decoration: none;">
+  <h3><code>npm run start</code></h3>
+</a>
+<p>Permet de lancer l&#39;application en mode production : build le projet avec <code>npm run build</code> puis démarre l&#39;application.</p>
+<p>:information_source: généralement utilisé par docker. Vous n&#39;avez normalement pas besoin de ce script.</p>
+
+<a href="#npm-run-build" id="npm-run-build" style="color: inherit; text-decoration: none;">
+  <h3><code>npm run build</code></h3>
+</a>
+<p>Permet de transformer le projet TypeScript (ts-node) en JavaScript. Le résultat est disponible dans le dossier <code>build</code>.</p>
+<p>:information_source: généralement utilisé par docker. Vous n&#39;avez normalement pas besoin de ce script.</p>
+
+<a href="#npm-run-test" id="npm-run-test" style="color: inherit; text-decoration: none;">
+  <h3><code>npm run test</code></h3>
+</a>
+<p>Permet de lancer les tests unitaires une fois. Les tests unitaires sont défini dans le dossier <code>spec</code> et ce dossier à la même architecture que <code>src</code>.</p>
+<p>Les tests unitaires utilises Jest.</p>
+
+<a href="#npm-run-testdev" id="npm-run-testdev" style="color: inherit; text-decoration: none;">
+  <h3><code>npm run test:dev</code></h3>
+</a>
+<p>Permet comme <code>npm run test</code> de lancer les tests unitaires, mais il seront relancé à chaque à chaque modification d&#39;un fichier de test unitaire.</p>
+
+<a href="#npm-run-prettier-format" id="npm-run-prettier-format" style="color: inherit; text-decoration: none;">
+  <h3><code>npm run prettier-format</code></h3>
+</a>
+<p>Permet de formatter le code automatiquement en suivant les standards par défaut surchargés par le fichier <code>.prettierrc</code>.</p>
+
+<a href="#npm-run-prettier-watch" id="npm-run-prettier-watch" style="color: inherit; text-decoration: none;">
+  <h3><code>npm run prettier-watch</code></h3>
+</a>
+<p>Permet comme <code>npm run prettier-format</code> de formatter le code, mais à chaque changement de fichier TypeScript.</p>
+
+<a href="#ajout-d39alias" id="ajout-d39alias" style="color: inherit; text-decoration: none;">
+  <h2>Ajout d&#39;alias</h2>
+</a>
+<p>Un alias permet d&#39;avoir des chemins plus propres lors d&#39;imports, et de se passer de l&#39;écriture relative à base de &quot;../../&quot;.</p>
+<p>Les alias comme <code>@app</code> ou <code>@services/</code> doivent être écrit pour TypeScript dans <code>tsconfig.json</code> et pour JavaScript dans <code>package.json</code> (_moduleAliases).</p>
+</div></div><div class="col-4 col-menu menu-sticky-wrap menu-highlight"><nav class="tsd-navigation primary"><ul><li class="current"><a href="modules.html">Exports</a></li></ul></nav><nav class="tsd-navigation secondary menu-sticky"><ul><li class="tsd-kind-variable"><a href="modules.html#default" class="tsd-kind-icon">default</a></li></ul></nav></div></div></div><footer class="with-border-bottom"><div class="container"><h2>Settings</h2><p>Theme <select id="theme"><option value="os">OS</option><option value="light">Light</option><option value="dark">Dark</option></select></p></div></footer><div class="container tsd-generator"><p>Generated using <a href="https://typedoc.org/" target="_blank">TypeDoc</a></p></div><div class="overlay"></div><script src="assets/main.js"></script></body></html>
