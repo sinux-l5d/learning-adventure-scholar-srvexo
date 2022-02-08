@@ -13,7 +13,7 @@ Husky permet de lancer des scripts (voir plus bas) pour lancer les tests unitair
 ## Commencer à developper
 
 1. Copier dev.example.env dans un fichier `.env`
-2. Démarrer la base de données en mode developpement : `docker-compose -f docker-compose.dev.yaml`
+2. Démarrer la base de données en mode developpement : `docker-compose -f docker-compose.dev.yaml up`
 3. Démarrer l'application en mode developpement : `npm run start:dev`
 4. Démarrer les tests unitaires en mode developpement : `npm run test:dev`
 
