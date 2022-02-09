@@ -16,7 +16,9 @@
     "forceConsistentCasingInFileNames": true,
     "baseUrl": "./",
     "paths": {
-      "@app": ["src/app"]
+      "@app": ["src/app"],
+      "@type/*": ["src/type/*"],
+      "@db/*": ["src/db/*"]
     }
   },
   "include": ["src/**/*.ts", "spec/**/*.ts"],
