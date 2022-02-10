@@ -18,7 +18,8 @@
     "paths": {
       "@app": ["src/app"],
       "@type/*": ["src/type/*"],
-      "@db/*": ["src/db/*"]
+      "@db/*": ["src/db/*"],
+      "@repositories/*": ["src/repositories/*"]
     }
   },
   "include": ["src/**/*.ts", "spec/**/*.ts"],

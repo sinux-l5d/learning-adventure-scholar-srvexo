@@ -2,6 +2,10 @@ import { ExerciceComplet } from '@type/exercice/ExerciceComplet';
 import { Test } from '@type/exercice/Test';
 import { model, Schema } from 'mongoose';
 
+/**
+ * Schéma d'un test en base de donnée.
+ * Utilisé dans ExerciceSchema.
+ */
 const TestSchema = new Schema<Test>({
   parametres: [
     {
@@ -16,7 +20,7 @@ const TestSchema = new Schema<Test>({
 });
 
 /**
- * Schéma
+ * Schéma d'un exercice en base de donnée
  */
 const ExerciceSchema = new Schema<ExerciceComplet>({
   nom: {
