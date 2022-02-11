@@ -83,4 +83,15 @@ const ExerciceSchema = new Schema<ExerciceComplet>({
   },
 });
 
+ExerciceSchema.set('toObject', {
+  getters: false,
+  virtuals: false,
+  versionKey: false,
+  flattenMaps: true,
+  transform: (doc, ret, options) => {
+    ret.id = ret._id + ''; // transformer ObjectID en string
+    delete ret._id;
+  },
+});
+
 export const Exercice = model('Exercice', ExerciceSchema);

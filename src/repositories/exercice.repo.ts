@@ -14,23 +14,7 @@ export const getExerciceCompletById = async (
 ): Promise<ExerciceComplet> => {
   const exo = await Exercice.findById(id).exec();
   if (exo) {
-    return {
-      id: exo._id + '',
-      nom: exo.nom,
-      template: exo.template,
-      enonce: exo.enonce,
-      difficulte: exo.difficulte,
-      theme: exo.theme,
-      langage: exo.langage,
-      tempsMoyen: exo.tempsMoyen,
-      tempsMaximum: exo.tempsMaximum,
-      dataset: exo.dataset,
-      correction: exo.correction,
-      commentaire: exo.commentaire,
-      aides: exo.aides,
-      auteurs: exo.auteurs,
-      session: exo.session,
-    };
+    return exo;
   }
   throw new Error('Not found');
 };
