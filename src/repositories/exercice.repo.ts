@@ -16,5 +16,26 @@ export const getExerciceCompletById = async (
   if (exo) {
     return exo;
   }
-  throw new Error('Not found');
+  throw new Error('getExerciceCompletById: Exercice not found');
+};
+
+/**
+ * Renvoie tous les exercices de la base de données
+ *
+ * @throws Error si aucun exercice n'est trouvé dans la BDD
+ * @return ExercicesComplet[] la liste des exercices récupérés
+ */
+export const getAllExercices = async (): Promise<ExerciceComplet[]> => {
+  const exercices = await Exercice.find().exec();
+  if (exercices) {
+    return exercices;
+  }
+  throw new Error('getAllExercices: exercices not found');
+};
+
+/**
+ * Renvoie tous les exercices correspondants au paramètres
+ */
+export const getAllExercicesWithFilter = async (): Promise<ExerciceComplet[]> => {
+  return [await getExerciceCompletById('1')];
 };

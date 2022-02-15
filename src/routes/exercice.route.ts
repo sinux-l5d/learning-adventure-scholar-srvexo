@@ -17,4 +17,17 @@ const getExerciceCompletById: RequestHandler = async (req, res) => {
 
 exerciceRouter.get('/:id', getExerciceCompletById);
 
+/**
+ * Renvoie tous les exercices de la db
+ *
+ * @param req Objet Request d'Express
+ * @param res Object Response d'Express
+ */
+const getAllExercices: RequestHandler = async (req, res) => {
+  const exo = await ExerciceService.getAllExercices();
+  res.status(200).json({ all: exo });
+};
+
+exerciceRouter.get('/', getAllExercices);
+
 export default exerciceRouter;

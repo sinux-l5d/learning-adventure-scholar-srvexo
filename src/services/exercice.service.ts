@@ -14,4 +14,13 @@ export class ExerciceService {
   public static async getExerciceCompletById(id: ExerciceComplet['id']): Promise<ExerciceComplet> {
     return await repo.getExerciceCompletById(id);
   }
+
+  /**
+   *
+   * @returns Les exercices de la db
+   * @throws Error si la bd est vide
+   */
+  public static async getAllExercices(): Promise<ExerciceComplet[]> {
+    return await repo.getAllExercices();
+  }
 }
