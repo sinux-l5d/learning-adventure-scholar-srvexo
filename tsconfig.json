@@ -19,7 +19,8 @@
       "@app": ["src/app"],
       "@type/*": ["src/type/*"],
       "@db/*": ["src/db/*"],
-      "@repositories/*": ["src/repositories/*"]
+      "@repositories/*": ["src/repositories/*"],
+      "@helpers/*": ["src/helpers/*"]
     }
   },
   "include": ["src/**/*.ts", "spec/**/*.ts"],
