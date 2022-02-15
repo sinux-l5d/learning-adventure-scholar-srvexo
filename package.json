@@ -45,7 +45,8 @@
     "@app": "build/app",
     "@type": "build/type",
     "@db": "build/db",
-    "@repositories": "build/repositories"
+    "@repositories": "build/repositories",
+    "@services": "build/services"
   },
   "devDependencies": {
     "@types/express": "^4.17.13",
