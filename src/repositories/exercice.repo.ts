@@ -1,5 +1,6 @@
 import { Exercice } from '@db/exercice.db';
 import { ExerciceComplet } from '@type/exercice/ExerciceComplet';
+import { FilterQuery } from 'mongoose';
 
 /**
  * Renvoie un exercice en fonction de son ID.
@@ -20,22 +21,18 @@ export const getExerciceCompletById = async (
 };
 
 /**
- * Renvoie tous les exercices de la base de données
+ * Renvoie tous les exercices correspondants aux paramètres
  *
+ * @param filters FilterQuery<ExerciceComplet> filtres utilisés dans la recherche des exercices correspondant
  * @throws Error si aucun exercice n'est trouvé dans la BDD
- * @return ExercicesComplet[] la liste des exercices récupérés
+ * @return ExerciceComplet[] la liste des exercices récupérés
  */
-export const getAllExercices = async (): Promise<ExerciceComplet[]> => {
-  const exercices = await Exercice.find().exec();
+export const getAllExercicesWithFilters = async (
+  filters: FilterQuery<ExerciceComplet>,
+): Promise<ExerciceComplet[]> => {
+  const exercices = await Exercice.find(filters).exec();
   if (exercices) {
     return exercices;
   }
-  throw new Error('getAllExercices: exercices not found');
-};
-
-/**
- * Renvoie tous les exercices correspondants au paramètres
- */
-export const getAllExercicesWithFilter = async (): Promise<ExerciceComplet[]> => {
-  return [await getExerciceCompletById('1')];
+  throw new Error('getAllExercicesWithFilters: exercices not found');
 };

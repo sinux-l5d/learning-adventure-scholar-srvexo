@@ -1,5 +1,6 @@
 import { ExerciceComplet } from '@type/exercice/ExerciceComplet';
 import * as repo from '@repositories/exercice.repo';
+import { FilterQuery } from 'mongoose';
 
 /**
  * Service de gestion des exercices
@@ -17,10 +18,13 @@ export class ExerciceService {
 
   /**
    *
+   * @param filters FilterQuery<ExerciceComplet> filtres utilisés pour la recherche d'exo
    * @returns Les exercices de la db
    * @throws Error si la bd est vide
    */
-  public static async getAllExercices(): Promise<ExerciceComplet[]> {
-    return await repo.getAllExercices();
+  public static async getAllExercicesWithFilters(
+    filters: FilterQuery<ExerciceComplet>,
+  ): Promise<ExerciceComplet[]> {
+    return await repo.getAllExercicesWithFilters(filters);
   }
 }

@@ -23,11 +23,13 @@ exerciceRouter.get('/:id', getExerciceCompletById);
  * @param req Objet Request d'Express
  * @param res Object Response d'Express
  */
-const getAllExercices: RequestHandler = async (req, res) => {
-  const exo = await ExerciceService.getAllExercices();
+const getAllExercicesWithFilters: RequestHandler = async (req, res) => {
+  const filters = req.query;
+  console.log(filters);
+  const exo = await ExerciceService.getAllExercicesWithFilters(filters);
   res.status(200).json({ all: exo });
 };
 
-exerciceRouter.get('/', getAllExercices);
+exerciceRouter.get('/', getAllExercicesWithFilters);
 
 export default exerciceRouter;
