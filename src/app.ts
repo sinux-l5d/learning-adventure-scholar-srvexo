@@ -1,5 +1,5 @@
 import express from 'express';
-import { handleAppErrors, handleMiddlewareErrors } from './middlewares/error.middleware';
+import { handleMiddlewareErrors } from './middlewares/error.middleware';
 import globalRouter from './routes';
 
 /**
@@ -8,9 +8,6 @@ import globalRouter from './routes';
 const app = express();
 
 app.use(express.json());
-
-// Doit être avant l'application (globalRouter)
-app.use(handleAppErrors);
 
 // Désactive le header indiquant que c'est une application express
 app.disable('x-powered-by');

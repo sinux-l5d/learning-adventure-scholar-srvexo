@@ -1,4 +1,5 @@
 import { Exercice } from '@db/exercice.db';
+import { AppError } from '@helpers/AppError.helper';
 import { ExerciceComplet } from '@type/exercice/ExerciceComplet';
 
 /**
@@ -16,5 +17,5 @@ export const getExerciceCompletById = async (
   if (exo) {
     return exo;
   }
-  throw new Error('Not found');
+  throw new AppError("L'utilisateur n'existe pas", 404);
 };
