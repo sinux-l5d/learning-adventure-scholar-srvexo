@@ -41,9 +41,6 @@ export class ExerciceService {
   ): Promise<ExerciceComplet> {
     const tableauExo = await repo.getAllExercicesWithFilters(filters); // recupere les exercices en fonction des filtres
     const indiceExercice = Math.floor(Math.random() * tableauExo.length); // calcul un indice random entre 0 et tableauExo.length (tableauExo.length exclut)
-    if (tableauExo.length != 0) {
-      return tableauExo[indiceExercice];
-    }
-    throw new AppError(envDependent('', 'getExercicesWithFilters : ') + 'exercice not found', 404);
+    return tableauExo[indiceExercice];
   }
 }

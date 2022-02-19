@@ -34,7 +34,7 @@ export const getAllExercicesWithFilters = async (
   filters: FilterQuery<ExerciceComplet>,
 ): Promise<ExerciceComplet[]> => {
   const exercices = await Exercice.find(filters).exec();
-  if (exercices) {
+  if (exercices && exercices.length != 0) {
     return exercices;
   }
   throw new AppError(envDependent('', 'getAllExercicesWithFilters:') + ' exercices not found', 404);
