@@ -1,6 +1,8 @@
 import { Exercice } from '@db/exercice.db';
+import { AppError } from '@helpers/AppError.helper';
 import { ExerciceComplet } from '@type/exercice/ExerciceComplet';
 import { FilterQuery } from 'mongoose';
+import { envDependent } from '@helpers/env.helper';
 
 /**
  * Renvoie un exercice en fonction de son ID.
@@ -17,7 +19,8 @@ export const getExerciceCompletById = async (
   if (exo) {
     return exo;
   }
-  throw new Error('getExerciceCompletById: Exercice not found');
+  // utilisation de envDependent pour modifier les erreurs en fonction du dev ou de la prod
+  throw new AppError(envDependent('', 'getExerciceCompletById:') + ' Exercice not found', 404);
 };
 
 /**
@@ -34,5 +37,5 @@ export const getAllExercicesWithFilters = async (
   if (exercices) {
     return exercices;
   }
-  throw new Error('getAllExercicesWithFilters: exercices not found');
+  throw new AppError(envDependent('', 'getAllExercicesWithFilters:') + ' exercices not found', 404);
 };
