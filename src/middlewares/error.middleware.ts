@@ -1,14 +1,10 @@
+import { AppError } from '@helpers/AppError.helper';
 import { ErrorRequestHandler } from 'express';
+import { envDependent } from 'src/helpers/env.helper';
 
-export const errorHandlerMiddleware: ErrorRequestHandler = (err, req, res, next) => {
-  if (err) {
-    if (process.env.NODE_ENV === 'production') {
-      // production
-      res.status(500).json({ error: 'Internal Server Error' });
-    } else {
-      // développement
-      console.error(err.stack);
-      res.status(500).json({ error: err });
-    }
-  }
+export const handleMiddlewareErrors: ErrorRequestHandler = (err: AppError, req, res, next) => {
+  console.error(envDependent(err, err.stack ?? 'Pas de stack'));
+  res
+    .status(err.status)
+    .json({ error: envDependent('Internal Server Error', err.message?.toString()) });
 };
