@@ -36,7 +36,7 @@ export class ExerciceService {
    * @returns Les exercices de la db
    * @throws Error si la bd est vide
    */
-  public static async getExercicesWithFilters(
+  public static async getExerciceWithFilters(
     filters: FilterQuery<ExerciceComplet>,
   ): Promise<ExerciceComplet> {
     const tableauExo = await repo.getAllExercicesWithFilters(filters); // recupere les exercices en fonction des filtres

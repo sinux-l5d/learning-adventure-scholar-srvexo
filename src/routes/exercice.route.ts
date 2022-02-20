@@ -43,7 +43,7 @@ exerciceRouter.get('/', getAllExercicesWithFilters);
 const getExercicesWithFilters: RequestHandler = async (req, res) => {
   const filters = req.query;
   console.log(filters);
-  const exo = await ExerciceService.getExercicesWithFilters(filters);
+  const exo = await ExerciceService.getExerciceWithFilters(filters);
   res.status(200).json({ exercice: exo });
 };
 
