@@ -13,8 +13,11 @@ const exerciceRouter = Router();
  */
 const getExerciceCompletById: RequestHandler = async (req, res, next) => {
   const id = req.params.id;
-  const exo = await ExerciceService.getExerciceCompletById(id).catch(next);
-  if (exo) res.status(200).json({ exercice: exo });
+  ExerciceService.getExerciceCompletById(id)
+    .then((exo) => {
+      res.status(200).json({ exercice: exo });
+    })
+    .catch(next);
 };
 
 exerciceRouter.get('/:id', getExerciceCompletById);
