@@ -1,3 +1,9 @@
+/**
+ * Erreur générique d'application. Contient code HTTP à renvoyer.
+ *
+ * @param message Le message d'erreur à renvoyer au client (si non intercepté par les couches supérieurs de l'application)
+ * @param status Code de statut HTTP à renvoyer au client
+ */
 export class AppError extends Error {
   public status: number;
   constructor(message: string, status = 500) {

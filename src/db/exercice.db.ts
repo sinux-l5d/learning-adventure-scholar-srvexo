@@ -20,7 +20,7 @@ const TestSchema = new Schema<Test>({
 });
 
 /**
- * Schéma d'un exercice en base de donnée
+ * Schéma d'un exercice en base de donnée.
  */
 const ExerciceSchema = new Schema<ExerciceComplet>({
   nom: {
