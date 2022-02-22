@@ -79,25 +79,25 @@ const exercicesAvecFiltres = [
 
 describe('service exercice', () => {
   test("getAllExercicesWithFilters : test que tous les exercices sont renvoyés quand il n'y a pas de filtres", async () => {
-    mockRepo.getAllExercicesWithFilters.mockResolvedValueOnce(exercices);
+    mockRepo.getAllExercicesWithFilters.mockResolvedValueOnce(exercices); // simule la reponce du repo pour tester uniquement le traitement du service
 
-    const tabExo = await ExerciceService.getAllExercicesWithFilters({});
-    expect(tabExo).toBeDefined();
-    expect(tabExo).toBe(exercices);
+    const tabExo = await ExerciceService.getAllExercicesWithFilters({}); // appel a la fonction a tester
+    expect(tabExo).toBeDefined(); // est defini ?
+    expect(tabExo).toBe(exercices); // les bons exos ?
   });
   test("getAllExercicesWithFilters : test qu'on est les bons exos avec des filtres", async () => {
     mockRepo.getAllExercicesWithFilters.mockResolvedValueOnce(exercicesAvecFiltres);
     const filtres = { nom: 'Hello World' };
     const tabExo = await ExerciceService.getAllExercicesWithFilters(filtres);
-    expect(tabExo).toBeDefined();
-    expect(tabExo).toBe(exercicesAvecFiltres);
+    expect(tabExo).toBeDefined(); // est defini ?
+    expect(tabExo).toBe(exercicesAvecFiltres); // les bons exos
   });
   test("getAllexercicesWithFilters : test q'une erreur est levé quand il n'y a pas d'exercices", async () => {
     mockRepo.getAllExercicesWithFilters.mockResolvedValueOnce([]);
     try {
       await ExerciceService.getAllExercicesWithFilters({});
     } catch (err) {
-      expect(err).toThrow(AppError);
+      expect(err).toThrow(AppError); // bon type d'erreur ?
     }
   });
 });

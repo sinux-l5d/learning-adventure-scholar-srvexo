@@ -17,6 +17,7 @@ export class ExerciceService {
   }
 
   /**
+   * renvoie les exercices trouver ne fonction des filtres passés en parametre
    *
    * @param filters FilterQuery<ExerciceComplet> filtres utilisés pour la recherche d'exo
    * @returns Les exercices de la db
