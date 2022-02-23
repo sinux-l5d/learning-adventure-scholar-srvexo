@@ -67,7 +67,7 @@ const exercicesAvecFiltres = [
     nom: 'Hello World',
     difficulte: 2,
     theme: ['boucles'],
-    langage: 'c',
+    langage: 'python',
     correction: 'blabla',
     aides: [],
     auteurs: ['Gi', 'Raphe', 'Polux'],
@@ -112,7 +112,7 @@ describe('service exercice', () => {
   });
 
   test('getExerciceWithFilter : test recuperer un exercice avec des filtres', async () => {
-    mockRepo.getAllExercicesWithFilters.mockResolvedValueOnce(exercices);
+    mockRepo.getAllExercicesWithFilters.mockResolvedValueOnce(exercicesAvecFiltres);
     const filtres = { auteurs: 'Polux', langage: 'python' };
 
     const exo = await ExerciceService.getExerciceWithFilters(filtres);
