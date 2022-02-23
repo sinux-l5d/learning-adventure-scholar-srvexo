@@ -22,4 +22,21 @@ const getExerciceCompletById: RequestHandler = (req, res, next) => {
 
 exerciceRouter.get('/:id', getExerciceCompletById);
 
+/**
+ * Renvoie tous les exercices de la db
+ *
+ * @param req Objet Request d'Express
+ * @param res Object Response d'Express
+ */
+const getAllExercicesWithFilters: RequestHandler = (req, res, next) => {
+  const filters = req.query;
+  ExerciceService.getAllExercicesWithFilters(filters)
+    .then((exo) => {
+      res.status(200).json({ all: exo });
+    })
+    .catch(next);
+};
+
+exerciceRouter.get('/', getAllExercicesWithFilters);
+
 export default exerciceRouter;
