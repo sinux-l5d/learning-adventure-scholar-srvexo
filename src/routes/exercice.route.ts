@@ -39,4 +39,19 @@ const getAllExercicesWithFilters: RequestHandler = (req, res, next) => {
 
 exerciceRouter.get('/', getAllExercicesWithFilters);
 
+/**
+ * Renvoie _un exercice en fonction des critères de recherche
+ *
+ * @param req Objet Request d'Express
+ * @param res Object Response d'Express
+ */
+const getExercicesWithFilters: RequestHandler = async (req, res) => {
+  const filters = req.query;
+  console.log(filters);
+  const exo = await ExerciceService.getExerciceWithFilters(filters);
+  res.status(200).json({ exercice: exo });
+};
+
+exerciceRouter.get('/one/filtre', getExercicesWithFilters);
+
 export default exerciceRouter;

@@ -1,6 +1,6 @@
-import { AppError } from '@helpers/AppError.helper';
-import * as repo from '@repositories/exercice.repo';
 import { ExerciceService } from '@services/exercice.service';
+import * as repo from '@repositories/exercice.repo';
+import { AppError } from '@helpers/AppError.helper';
 
 jest.mock('@repositories/exercice.repo');
 
@@ -85,6 +85,7 @@ describe('service exercice', () => {
     expect(tabExo).toBeDefined(); // est defini ?
     expect(tabExo).toBe(exercices); // les bons exos ?
   });
+
   test("getAllExercicesWithFilters : test qu'on est les bons exos avec des filtres", async () => {
     mockRepo.getAllExercicesWithFilters.mockResolvedValueOnce(exercicesAvecFiltres);
     const filtres = { nom: 'Hello World' };
@@ -92,12 +93,40 @@ describe('service exercice', () => {
     expect(tabExo).toBeDefined(); // est defini ?
     expect(tabExo).toBe(exercicesAvecFiltres); // les bons exos
   });
+
   test("getAllexercicesWithFilters : test q'une erreur est levé quand il n'y a pas d'exercices", async () => {
     mockRepo.getAllExercicesWithFilters.mockResolvedValueOnce([]);
     try {
       await ExerciceService.getAllExercicesWithFilters({});
     } catch (err) {
-      expect(err).toThrow(AppError); // bon type d'erreur ?
+      expect(err).toBeInstanceOf(AppError); // bon type d'erreur ?
+    }
+  });
+
+  test('getExerciceWithFilter : test de recuperer un exercice sans filtre', async () => {
+    mockRepo.getAllExercicesWithFilters.mockResolvedValueOnce(exercices);
+
+    const exo = await ExerciceService.getExerciceWithFilters({});
+    expect(exo).toBeDefined();
+    expect(typeof exo).toBe('object');
+  });
+
+  test('getExerciceWithFilter : test recuperer un exercice avec des filtres', async () => {
+    mockRepo.getAllExercicesWithFilters.mockResolvedValueOnce(exercices);
+    const filtres = { auteurs: 'Polux', langage: 'python' };
+
+    const exo = await ExerciceService.getExerciceWithFilters(filtres);
+
+    expect(exo.auteurs).toEqual(expect.arrayContaining([filtres.auteurs]));
+    expect(exo.langage).toBe(filtres.langage);
+  });
+
+  test("getExerciceWithFilter : test qu'une erreur est bien retourner quand il n'y a pas d'exercice", async () => {
+    mockRepo.getAllExercicesWithFilters.mockResolvedValueOnce([]);
+    try {
+      await ExerciceService.getExerciceWithFilters({});
+    } catch (err) {
+      expect(err).toBeInstanceOf(AppError);
     }
   });
 });
