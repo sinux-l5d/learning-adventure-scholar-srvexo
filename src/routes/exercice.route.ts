@@ -1,5 +1,5 @@
 import { Router, RequestHandler } from 'express';
-import { ExerciceService } from 'src/services/exercice.service';
+import { ExerciceService } from '@services/exercice.service';
 
 const exerciceRouter = Router();
 
@@ -11,10 +11,13 @@ const exerciceRouter = Router();
  * @param next Function NextFunction d'Express. Fonction appelant le prochain middleware ou handleMiddlewareErrors si appellé avec un paramètre
  * @todo Voir si on peut se débarasser de if (exo) aka le catch stop la fonction
  */
-const getExerciceCompletById: RequestHandler = async (req, res, next) => {
+const getExerciceCompletById: RequestHandler = (req, res, next) => {
   const id = req.params.id;
-  const exo = await ExerciceService.getExerciceCompletById(id).catch(next);
-  if (exo) res.status(200).json({ exercice: exo });
+  ExerciceService.getExerciceCompletById(id)
+    .then((exo) => {
+      res.status(200).json({ exercice: exo });
+    })
+    .catch(next);
 };
 
 exerciceRouter.get('/:id', getExerciceCompletById);
@@ -25,11 +28,13 @@ exerciceRouter.get('/:id', getExerciceCompletById);
  * @param req Objet Request d'Express
  * @param res Object Response d'Express
  */
-const getAllExercicesWithFilters: RequestHandler = async (req, res) => {
+const getAllExercicesWithFilters: RequestHandler = (req, res, next) => {
   const filters = req.query;
-  console.log(filters);
-  const exo = await ExerciceService.getAllExercicesWithFilters(filters);
-  res.status(200).json({ all: exo });
+  ExerciceService.getAllExercicesWithFilters(filters)
+    .then((exo) => {
+      res.status(200).json({ all: exo });
+    })
+    .catch(next);
 };
 
 exerciceRouter.get('/', getAllExercicesWithFilters);

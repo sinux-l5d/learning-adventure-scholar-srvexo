@@ -1,10 +1,26 @@
-import request from 'supertest';
-import app from '@app';
+import { config } from 'dotenv';
 
 // @todo Il faut savoir comment tester une application sans base de donner (mock)
 
+beforeAll(() => {
+  config({ path: '.env' });
+});
+
 test("L'environnement est en place", () => {
-  return;
+  expect(process.env.MONGO_PORT_EXT).toBeDefined();
+
+  // prettier-ignore
+  const env = [
+    'MONGO_APP_USER',
+    'MONGO_APP_PWD',
+    'MONGO_HOST',
+    'MONGO_DB_NAME',
+    'NODE_ENV',
+  ];
+
+  env.forEach((element) => {
+    expect(process.env[element]).toBeDefined();
+  });
 });
 
 // describe('Path /', () => {

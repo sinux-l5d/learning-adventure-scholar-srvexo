@@ -11,14 +11,15 @@ export class ExerciceService {
   /**
    *
    * @param id ID de l'exercice rechercher.
-   * @returns L'exercice demandé
-   * @throws Error si l'exercice n'a pas été trouvé
+   * @returns L'exercice dont l'id correspond au paramètre
+   * @throws AppError si l'exercice n'a pas été trouvé
    */
   public static async getExerciceCompletById(id: ExerciceComplet['id']): Promise<ExerciceComplet> {
     return await repo.getExerciceCompletById(id);
   }
 
   /**
+   * renvoie les exercices trouver ne fonction des filtres passés en parametre
    *
    * @param filters FilterQuery<ExerciceComplet> filtres utilisés pour la recherche d'exo
    * @returns Les exercices de la db
