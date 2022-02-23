@@ -28,7 +28,9 @@
   "include": ["src/**/*.ts", "spec/**/*.ts"],
   "exclude": [],
   "typedocOptions": {
-    "entryPoints": ["src/app.ts"],
+    "entryPoints": ["src/"],
+    "entryPointStrategy": "expand",
+    "readme": "none",
     "out": "docs"
   }
 }
