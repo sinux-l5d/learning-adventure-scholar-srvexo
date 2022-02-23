@@ -46,6 +46,7 @@
     "@type": "build/type",
     "@db": "build/db",
     "@repositories": "build/repositories",
+    "@helpers": "build/helpers",
     "@services": "build/services"
   },
   "devDependencies": {

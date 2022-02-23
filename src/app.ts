@@ -1,5 +1,5 @@
 import express from 'express';
-import { errorHandlerMiddleware } from './middlewares/error.middleware';
+import { handleMiddlewareErrors } from './middlewares/error.middleware';
 import globalRouter from './routes';
 
 /**
@@ -15,7 +15,7 @@ app.disable('x-powered-by');
 app.use(globalRouter);
 
 // Doit être en dernier
-app.use(errorHandlerMiddleware);
+app.use(handleMiddlewareErrors);
 
 /**
  * Application hydraté avec tout les middlewares
