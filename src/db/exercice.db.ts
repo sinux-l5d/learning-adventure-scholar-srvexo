@@ -20,7 +20,7 @@ const TestSchema = new Schema<Test>({
 });
 
 /**
- * Schéma d'un exercice en base de donnée
+ * Schéma d'un exercice en base de donnée.
  */
 const ExerciceSchema = new Schema<ExerciceComplet>({
   nom: {
@@ -80,6 +80,17 @@ const ExerciceSchema = new Schema<ExerciceComplet>({
   },
   session: {
     type: String,
+  },
+});
+
+ExerciceSchema.set('toObject', {
+  getters: false,
+  virtuals: false,
+  versionKey: false,
+  flattenMaps: true,
+  transform: (_doc, ret, _options) => {
+    ret.id = ret._id + ''; // transformer ObjectID en string
+    delete ret._id;
   },
 });
 
