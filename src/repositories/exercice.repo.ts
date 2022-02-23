@@ -20,7 +20,7 @@ export const getExerciceCompletById = async (
     return exo;
   }
   // utilisation de envDependent pour modifier les erreurs en fonction du dev ou de la prod
-  throw new AppError(envDependent('', 'getExerciceCompletById:') + ' Exercice not found', 404);
+  throw new AppError(envDependent('', 'getExerciceCompletById: ') + 'Exercice not found', 404);
 };
 
 /**
@@ -37,5 +37,5 @@ export const getAllExercicesWithFilters = async (
   if (exercices) {
     return exercices;
   }
-  throw new AppError(envDependent('', 'getAllExercicesWithFilters:') + ' exercices not found', 404);
+  throw new AppError(envDependent('', 'getAllExercicesWithFilters: ') + 'Exercices not found', 404);
 };
