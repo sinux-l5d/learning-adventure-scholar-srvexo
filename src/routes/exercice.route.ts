@@ -27,7 +27,6 @@ exerciceRouter.get('/:id', getExerciceCompletById);
  */
 const getAllExercicesWithFilters: RequestHandler = async (req, res) => {
   const filters = req.query;
-  console.log(filters);
   const exo = await ExerciceService.getAllExercicesWithFilters(filters);
   res.status(200).json({ all: exo });
 };
