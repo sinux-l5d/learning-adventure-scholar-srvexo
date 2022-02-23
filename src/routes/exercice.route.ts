@@ -11,7 +11,7 @@ const exerciceRouter = Router();
  * @param next Function NextFunction d'Express. Fonction appelant le prochain middleware ou handleMiddlewareErrors si appellé avec un paramètre
  * @todo Voir si on peut se débarasser de if (exo) aka le catch stop la fonction
  */
-const getExerciceCompletById: RequestHandler = async (req, res, next) => {
+const getExerciceCompletById: RequestHandler = (req, res, next) => {
   const id = req.params.id;
   ExerciceService.getExerciceCompletById(id)
     .then((exo) => {
