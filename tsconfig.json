@@ -21,7 +21,8 @@
       "@type/*": ["src/type/*"],
       "@db/*": ["src/db/*"],
       "@repositories/*": ["src/repositories/*"],
-      "@helpers/*": ["src/helpers/*"]
+      "@helpers/*": ["src/helpers/*"],
+      "@services/*": ["src/services/*"]
     }
   },
   "include": ["src/**/*.ts", "spec/**/*.ts"],

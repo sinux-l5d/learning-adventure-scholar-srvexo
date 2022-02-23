@@ -1,5 +1,5 @@
 import { Router, RequestHandler } from 'express';
-import { ExerciceService } from 'src/services/exercice.service';
+import { ExerciceService } from '@services/exercice.service';
 
 const exerciceRouter = Router();
 
