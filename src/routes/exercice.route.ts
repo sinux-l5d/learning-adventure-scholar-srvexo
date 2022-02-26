@@ -81,10 +81,8 @@ const getAllExercicesWithFilters: RequestHandler = (req, res, next) => {
  */
 function convertFiltersExpressToMangoose(filters: qs.ParsedQs): FilterQuery<ExerciceComplet> {
   for (const key in filters) {
-    if (Object.prototype.hasOwnProperty.call(filters, key)) {
-      if (filters[key] instanceof Array) {
-        filters[key] = { $all: filters[key] };
-      }
+    if (filters[key] instanceof Array) {
+      filters[key] = { $all: filters[key] };
     }
   }
   return filters;
