@@ -1,6 +1,6 @@
 import { AppError } from '@helpers/AppError.helper';
 import { ErrorRequestHandler } from 'express';
-import { envDependent } from 'src/helpers/env.helper';
+import { envDependent } from '@helpers/env.helper';
 
 /**
  * Middleware renvoie une erreur au client en fonction du code erreur contenu dans AppError.
