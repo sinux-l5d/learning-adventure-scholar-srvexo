@@ -5,6 +5,24 @@ import { ExerciceService } from '@services/exercice.service';
 const exerciceRouter = Router();
 
 /**
+ * Renvoie _un exercice en fonction des critères de recherche
+ *
+ * @param req Objet Request d'Express
+ * @param res Object Response d'Express
+ */
+const getExercicesWithFilters: RequestHandler = async (req, res, next) => {
+  const filters = req.query;
+  console.log(filters);
+  ExerciceService.getExerciceWithFilters(filters)
+    .then((exo) => {
+      res.status(200).json({ exercice: exo });
+    })
+    .catch(next);
+};
+
+exerciceRouter.get('/one', getExercicesWithFilters);
+
+/**
  * Renvoie un exercice d'après son ID
  *
  * @param req Objet Request d'Express
@@ -21,13 +39,18 @@ const getExerciceCompletById: RequestHandler = (req, res, next) => {
     .catch(next);
 };
 
-const getExerciceCompletNext: RequestHandler = async (req, res) => {
+const getExerciceCompletNext: RequestHandler = async (req, res, next) => {
   const id = req.params.id;
   // Demander au service sratégie l'id de l'exercice suivant
   // Pour le moment pas de service stratégie donc codé en dur
-  const idSuivant = await StrategieService.callStrategieForNextId(id);
-  const exoSuivant = await ExerciceService.getExerciceCompletById(idSuivant);
-  res.status(200).json({ exercice: exoSuivant });
+  StrategieService.callStrategieForNextId(id)
+    .then((idSuivant) => {
+      return ExerciceService.getExerciceCompletById(idSuivant);
+    })
+    .then((exoSuivant) => {
+      res.status(200).json({ exercice: exoSuivant });
+    })
+    .catch(next);
 };
 
 exerciceRouter.get('/:id', getExerciceCompletById);
@@ -41,28 +64,14 @@ exerciceRouter.get('/:id/next', getExerciceCompletNext);
  */
 const getAllExercicesWithFilters: RequestHandler = (req, res, next) => {
   const filters = req.query;
+  console.log(filters);
   ExerciceService.getAllExercicesWithFilters(filters)
     .then((exo) => {
-      res.status(200).json({ all: exo });
+      res.status(200).json({ exercices: exo });
     })
     .catch(next);
 };
 
 exerciceRouter.get('/', getAllExercicesWithFilters);
-
-/**
- * Renvoie _un exercice en fonction des critères de recherche
- *
- * @param req Objet Request d'Express
- * @param res Object Response d'Express
- */
-const getExercicesWithFilters: RequestHandler = async (req, res) => {
-  const filters = req.query;
-  console.log(filters);
-  const exo = await ExerciceService.getExerciceWithFilters(filters);
-  res.status(200).json({ exercice: exo });
-};
-
-exerciceRouter.get('/one/filtre', getExercicesWithFilters);
 
 export default exerciceRouter;
