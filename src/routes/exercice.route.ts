@@ -74,6 +74,11 @@ const getAllExercicesWithFilters: RequestHandler = (req, res, next) => {
     .catch(next);
 };
 
+/**
+ * Convertit les filtres du format express au format mongoose
+ * @param filters filtres au format d'express
+ * @returns FilterQuery<ExerciceComplet> filtes au format mongoose
+ */
 function convertFiltersExpressToMangoose(filters: qs.ParsedQs): FilterQuery<ExerciceComplet> {
   for (const key in filters) {
     if (Object.prototype.hasOwnProperty.call(filters, key)) {
