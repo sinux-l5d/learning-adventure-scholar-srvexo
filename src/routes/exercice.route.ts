@@ -1,6 +1,9 @@
 import { Router, RequestHandler } from 'express';
 import { StrategieService } from '@services/strategie.service';
 import { ExerciceService } from '@services/exercice.service';
+import { FilterQuery } from 'mongoose';
+import { ExerciceComplet } from '@type/exercice/ExerciceComplet';
+import QueryString from 'qs';
 
 const exerciceRouter = Router();
 
@@ -63,14 +66,24 @@ exerciceRouter.get('/:id/next', getExerciceCompletNext);
  * @param res Object Response d'Express
  */
 const getAllExercicesWithFilters: RequestHandler = (req, res, next) => {
-  const filters = req.query;
-  console.log(filters);
+  const filters = convertFiltersExpressToMangoose(req.query);
   ExerciceService.getAllExercicesWithFilters(filters)
     .then((exo) => {
       res.status(200).json({ exercices: exo });
     })
     .catch(next);
 };
+
+function convertFiltersExpressToMangoose(filters: qs.ParsedQs): FilterQuery<ExerciceComplet> {
+  for (const key in filters) {
+    if (Object.prototype.hasOwnProperty.call(filters, key)) {
+      if (filters[key] instanceof Array) {
+        filters[key] = { $all: filters[key] };
+      }
+    }
+  }
+  return filters;
+}
 
 exerciceRouter.get('/', getAllExercicesWithFilters);
 
