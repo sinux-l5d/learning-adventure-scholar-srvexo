@@ -2,7 +2,9 @@ import app from '@app';
 import { config } from 'dotenv';
 import mongoose from 'mongoose';
 
-config({ path: '.env' });
+if (process.env.NODE_ENV !== 'production') {
+  config({ path: '.env' });
+}
 
 const uri = `mongodb://${process.env.MONGO_APP_USER}:${process.env.MONGO_APP_PWD}@${process.env.MONGO_HOST}:${process.env.MONGO_PORT_EXT}/${process.env.MONGO_DB_NAME}`;
 
