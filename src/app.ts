@@ -12,7 +12,8 @@ app.use(express.json());
 // Désactive le header indiquant que c'est une application express
 app.disable('x-powered-by');
 
-app.use(globalRouter);
+// TODO doit dépendre de process.env.APP_ROOT
+app.use('/', globalRouter);
 
 // Doit être en dernier
 app.use(handleMiddlewareErrors);
