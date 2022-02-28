@@ -8,7 +8,7 @@ jest.mock('axios');
 const mockAxios = axios as unknown as jest.Mocked<typeof axios>;
 
 describe('Strategie service', () => {
-  it('recupere exercice suivant depuis le service stratégie', async () => {
+  test('recupere exercice suivant depuis le service stratégie', async () => {
     const idCourant: ExerciceComplet['id'] = '121654fdsf';
 
     mockAxios.get.mockResolvedValueOnce({ data: { next: '456789dadadz' } });
