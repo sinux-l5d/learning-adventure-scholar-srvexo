@@ -1,13 +1,7 @@
-import { config } from 'dotenv';
-
-// @todo Il faut savoir comment tester une application sans base de donner (mock)
-
-beforeAll(() => {
-  config({ path: '.env' });
-});
+import config from '@config';
 
 test("L'environnement est en place", () => {
-  expect(process.env.MONGO_PORT_EXT).toBeDefined();
+  expect(config.MONGO_PORT_EXT).toBeDefined();
 
   // prettier-ignore
   const env = [
@@ -19,7 +13,7 @@ test("L'environnement est en place", () => {
   ];
 
   env.forEach((element) => {
-    expect(process.env[element]).toBeDefined();
+    expect(config[element]).toBeDefined();
   });
 });
 

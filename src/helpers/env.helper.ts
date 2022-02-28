@@ -1,3 +1,5 @@
+import config from '@config';
+
 /**
  * Permet de retourner un objet en fonction de l'environnement
  * Par défaut si l'environnement est inconnu (càd != production | developpement | testing), retournera production.
@@ -15,7 +17,7 @@ export function envDependent<P, D, T = undefined>(
   developpment: NonNullable<D>,
   testing?: T,
 ): P | D | (T extends undefined | null ? D : T) {
-  switch (process.env.NODE_ENV) {
+  switch (config.NODE_ENV) {
     case 'production':
       return production;
 

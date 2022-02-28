@@ -1,9 +1,7 @@
 import { ExerciceComplet } from '@type/exercice/ExerciceComplet';
 import { StrategieService } from '@services/strategie.service';
 import axios from 'axios';
-import { config } from 'dotenv';
-
-config({ path: '.env' });
+import config from '@config';
 
 jest.mock('axios');
 // Le transpileur de TS ne sait pas que jest.mock modifie repo
@@ -17,7 +15,7 @@ describe('Strategie service', () => {
 
     const nextid = await StrategieService.callStrategieForNextId(idCourant);
 
-    expect(mockAxios.get).toBeCalledWith(`${process.env.STRAT_URL}/next/${idCourant}`);
+    expect(mockAxios.get).toBeCalledWith(`${config.STRAT_URL}/next/${idCourant}`);
     expect(mockAxios.get).toBeCalledTimes(1);
     expect(nextid).toBe('456789dadadz');
   });
