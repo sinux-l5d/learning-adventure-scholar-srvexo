@@ -1,4 +1,5 @@
 import express from 'express';
+import config from '@config';
 import { handleMiddlewareErrors } from './middlewares/error.middleware';
 import globalRouter from './routes';
 
@@ -12,7 +13,7 @@ app.use(express.json());
 // Désactive le header indiquant que c'est une application express
 app.disable('x-powered-by');
 
-app.use(globalRouter);
+app.use(config.APP_ROOT ?? '/', globalRouter);
 
 // Doit être en dernier
 app.use(handleMiddlewareErrors);

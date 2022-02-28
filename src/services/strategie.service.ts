@@ -1,3 +1,5 @@
+import config from '@config';
+import { AppError } from '@helpers/AppError.helper';
 import { ExerciceComplet } from '@type/exercice/ExerciceComplet';
 import axios from 'axios';
 
@@ -16,10 +18,10 @@ export class StrategieService {
   ): Promise<ExerciceComplet['id']> {
     // Make a request for an exercice with a given ID
     try {
-      const nextId = await axios.get(`${process.env.STRAT_URL}/next/${id}`);
+      const nextId = await axios.get(`${config.STRAT_URL}/next/${id}`);
       return nextId.data.next; // /next/:id renvoie {"next":"..."}
     } catch (err) {
-      throw new Error(`Not found: ${err}`);
+      throw new AppError(`Not found: ${err}`, 404);
     }
   }
 }

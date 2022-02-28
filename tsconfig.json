@@ -18,6 +18,7 @@
     "baseUrl": "./",
     "paths": {
       "@app": ["src/app"],
+      "@config": ["src/config"],
       "@type/*": ["src/type/*"],
       "@db/*": ["src/db/*"],
       "@repositories/*": ["src/repositories/*"],

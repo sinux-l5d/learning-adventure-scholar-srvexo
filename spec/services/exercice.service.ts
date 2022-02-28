@@ -77,7 +77,7 @@ const exercicesAvecFiltres = [
   },
 ];
 
-describe('service exercice', () => {
+describe('Service exercice', () => {
   test("getAllExercicesWithFilters : test que tous les exercices sont renvoyés quand il n'y a pas de filtres", async () => {
     mockRepo.getAllExercicesWithFilters.mockResolvedValueOnce(exercices); // simule la reponce du repo pour tester uniquement le traitement du service
 

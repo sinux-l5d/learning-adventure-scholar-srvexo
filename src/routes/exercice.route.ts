@@ -1,8 +1,29 @@
 import { Router, RequestHandler } from 'express';
 import { StrategieService } from '@services/strategie.service';
 import { ExerciceService } from '@services/exercice.service';
+import { FilterQuery } from 'mongoose';
+import { ExerciceComplet } from '@type/exercice/ExerciceComplet';
+import QueryString from 'qs';
 
 const exerciceRouter = Router();
+
+/**
+ * Renvoie _un exercice en fonction des critères de recherche
+ *
+ * @param req Objet Request d'Express
+ * @param res Object Response d'Express
+ */
+const getExercicesWithFilters: RequestHandler = async (req, res, next) => {
+  const filters = req.query;
+  console.log(filters);
+  ExerciceService.getExerciceWithFilters(filters)
+    .then((exo) => {
+      res.status(200).json({ exercice: exo });
+    })
+    .catch(next);
+};
+
+exerciceRouter.get('/one', getExercicesWithFilters);
 
 /**
  * Renvoie un exercice d'après son ID
@@ -21,13 +42,18 @@ const getExerciceCompletById: RequestHandler = (req, res, next) => {
     .catch(next);
 };
 
-const getExerciceCompletNext: RequestHandler = async (req, res) => {
+const getExerciceCompletNext: RequestHandler = async (req, res, next) => {
   const id = req.params.id;
   // Demander au service sratégie l'id de l'exercice suivant
   // Pour le moment pas de service stratégie donc codé en dur
-  const idSuivant = await StrategieService.callStrategieForNextId(id);
-  const exoSuivant = await ExerciceService.getExerciceCompletById(idSuivant);
-  res.status(200).json({ exercice: exoSuivant });
+  StrategieService.callStrategieForNextId(id)
+    .then((idSuivant) => {
+      return ExerciceService.getExerciceCompletById(idSuivant);
+    })
+    .then((exoSuivant) => {
+      res.status(200).json({ exercice: exoSuivant });
+    })
+    .catch(next);
 };
 
 exerciceRouter.get('/:id', getExerciceCompletById);
@@ -40,29 +66,28 @@ exerciceRouter.get('/:id/next', getExerciceCompletNext);
  * @param res Object Response d'Express
  */
 const getAllExercicesWithFilters: RequestHandler = (req, res, next) => {
-  const filters = req.query;
+  const filters = convertFiltersExpressToMangoose(req.query);
   ExerciceService.getAllExercicesWithFilters(filters)
     .then((exo) => {
-      res.status(200).json({ all: exo });
+      res.status(200).json({ exercices: exo });
     })
     .catch(next);
 };
 
-exerciceRouter.get('/', getAllExercicesWithFilters);
-
 /**
- * Renvoie _un exercice en fonction des critères de recherche
- *
- * @param req Objet Request d'Express
- * @param res Object Response d'Express
+ * Convertit les filtres du format express au format mongoose
+ * @param filters filtres au format d'express
+ * @returns FilterQuery<ExerciceComplet> filtes au format mongoose
  */
-const getExercicesWithFilters: RequestHandler = async (req, res) => {
-  const filters = req.query;
-  console.log(filters);
-  const exo = await ExerciceService.getExerciceWithFilters(filters);
-  res.status(200).json({ exercice: exo });
-};
+function convertFiltersExpressToMangoose(filters: qs.ParsedQs): FilterQuery<ExerciceComplet> {
+  for (const key in filters) {
+    if (filters[key] instanceof Array) {
+      filters[key] = { $all: filters[key] };
+    }
+  }
+  return filters;
+}
 
-exerciceRouter.get('/one/filtre', getExercicesWithFilters);
+exerciceRouter.get('/', getAllExercicesWithFilters);
 
 export default exerciceRouter;

@@ -1,12 +1,10 @@
 import app from '@app';
-import { config } from 'dotenv';
 import mongoose from 'mongoose';
+import config from '@config';
 
-config({ path: '.env' });
+const uri = `mongodb://${config.MONGO_APP_USER}:${config.MONGO_APP_PWD}@${config.MONGO_HOST}:${config.MONGO_PORT_EXT}/${config.MONGO_DB_NAME}`;
 
-const uri = `mongodb://${process.env.MONGO_APP_USER}:${process.env.MONGO_APP_PWD}@${process.env.MONGO_HOST}:${process.env.MONGO_PORT_EXT}/${process.env.MONGO_DB_NAME}`;
-
-if (process.env.NODE_ENV !== 'production') console.debug(uri);
+if (config.NODE_ENV !== 'production') console.debug(uri);
 
 mongoose.connect(uri, {}, function (error) {
   if (error) {
