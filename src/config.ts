@@ -5,7 +5,7 @@
  */
 import { config as dotenv } from 'dotenv';
 
-dotenv({ path: '.env' });
+dotenv({ path: '.env', debug: process.env.NODE_ENV !== 'production' });
 
 // import config from '@config' quand vous utilisez
 export default process.env;
