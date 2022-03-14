@@ -12,10 +12,6 @@ sonarqube-check:
   script:
     - sonar-scanner -D sonar.projectKey=$SONAR_TOKEN -D sonar.qualitygate.wait=true -D sonar.host.url=$SONAR_HOST_URL
   allow_failure: true
-  only:
-    - merge_requests
-    - master
-    - develop
   rules:
     # on execute que si on a un token et
     # que la variable SONAR_ANALYSIS est definIe
