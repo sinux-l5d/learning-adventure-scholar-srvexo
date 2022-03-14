@@ -10,7 +10,7 @@ sonarqube-check:
     paths:
       - .sonar/cache
   script:
-    - sonar-scanner -D sonar.projectKey=$SONAR_TOKEN -D sonar.qualitygate.wait=true -D sonar.host.url=$SONAR_HOST_URL
+    - sonar-scanner
   allow_failure: true
   rules:
     # on execute que si on a un token et
