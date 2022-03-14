@@ -1,8 +1,8 @@
 {
   "compilerOptions": {
-    "target": "es2021",
+    "target": "es2020",
     "module": "commonjs",
-    "lib": ["es2021"],
+    "lib": ["es2020"],
     "allowJs": false,
     "outDir": "build",
     "rootDirs": ["src", "spec"],
