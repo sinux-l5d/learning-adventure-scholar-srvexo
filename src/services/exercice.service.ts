@@ -1,8 +1,6 @@
 import { ExerciceComplet } from '@type/exercice/ExerciceComplet';
 import * as repo from '@repositories/exercice.repo';
 import { FilterQuery } from 'mongoose';
-import { AppError } from '@helpers/AppError.helper';
-import { envDependent } from '@helpers/env.helper';
 
 /**
  * Service de gestion des exercices
