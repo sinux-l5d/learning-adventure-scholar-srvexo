@@ -14,7 +14,7 @@ mongoose.connect(uri, {}, function (error) {
 });
 
 /** Port par défaut */
-const port = 3000;
+const port = config.APP_PORT_EXT;
 app.listen(port, () => {
   console.log('Server is running on port ' + port);
 });
