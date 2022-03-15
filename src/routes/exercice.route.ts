@@ -4,6 +4,7 @@ import { ExerciceService } from '@services/exercice.service';
 import { FilterQuery } from 'mongoose';
 import { ExerciceComplet } from '@type/exercice/ExerciceComplet';
 import QueryString from 'qs';
+import { ResultatService } from '@services/resultat.service';
 
 const exerciceRouter = Router();
 
@@ -42,6 +43,15 @@ const getExerciceCompletById: RequestHandler = (req, res, next) => {
     .catch(next);
 };
 
+/**
+ * Renvoie l'exercice suivant à l'étudiant
+ * Renvoie en même temps l'exercice au service résultat pour commencer l'analyse
+ *
+ * @param req Objet Request d'Express
+ * @param res Object Response d'Express
+ * @param next Function NextFunction d'Express. Fonction appelant le prochain middleware ou handleMiddlewareErrors si appellé avec un paramètre
+ */
+
 const getExerciceCompletNext: RequestHandler = async (req, res, next) => {
   const id = req.params.id;
   // Demander au service sratégie l'id de l'exercice suivant
@@ -52,6 +62,12 @@ const getExerciceCompletNext: RequestHandler = async (req, res, next) => {
     })
     .then((exoSuivant) => {
       res.status(200).json({ exercice: exoSuivant });
+      // une fois l'exercice envoyé à l'étudiant, les données sont envoyées au service résultat
+      ResultatService.postExercicePourResultat(exoSuivant, 'etu', 'coursL3')
+        .then((success) => {
+          console.error(success);
+        })
+        .catch(next);
     })
     .catch(next);
 };
