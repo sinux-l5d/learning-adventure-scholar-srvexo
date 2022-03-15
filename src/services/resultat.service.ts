@@ -51,7 +51,7 @@ export class ResultatService {
     // envoyer avec axios
     // verifier le retour d'axios et afficher si erreur
     axios
-      .post(`${config.RESULT_URL}/resultat/`)
+      .post(`${config.RESULT_URL}/exercices`, resJSON)
       .then(function (response) {
         console.log(response);
       })
