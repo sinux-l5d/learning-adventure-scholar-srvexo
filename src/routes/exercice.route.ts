@@ -3,7 +3,6 @@ import { StrategieService } from '@services/strategie.service';
 import { ExerciceService } from '@services/exercice.service';
 import { FilterQuery } from 'mongoose';
 import { ExerciceComplet } from '@type/exercice/ExerciceComplet';
-import QueryString from 'qs';
 
 const exerciceRouter = Router();
 

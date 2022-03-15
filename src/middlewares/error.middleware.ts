@@ -15,6 +15,7 @@ import { envDependent } from '@helpers/env.helper';
  * @param res Response Express
  * @param _next NextFunction Express
  */
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 export const handleMiddlewareErrors: ErrorRequestHandler = (err: AppError, _req, res, _next) => {
   console.error(envDependent(err, err.stack ?? 'Pas de stack'));
   res.status(err.status);

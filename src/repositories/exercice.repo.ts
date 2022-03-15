@@ -15,10 +15,18 @@ import { envDependent } from '@helpers/env.helper';
 export const getExerciceCompletById = async (
   id: ExerciceComplet['id'],
 ): Promise<ExerciceComplet> => {
-  const exo = await Exercice.findById(id).exec();
-  if (exo) {
-    return exo;
+  try {
+    // renvoie null si l'exo n'est pas trouvé.
+    // throw une exeption si le format n'est pas bon
+    const exo = await Exercice.findById(id).exec();
+
+    if (exo) {
+      return exo;
+    }
+  } catch {
+    throw new AppError(envDependent('', 'getExerciceCompletById: ') + 'Mauvais format', 400);
   }
+
   // utilisation de envDependent pour modifier les erreurs en fonction du dev ou de la prod
   throw new AppError(envDependent('', 'getExerciceCompletById: ') + 'Exercice not found', 404);
 };

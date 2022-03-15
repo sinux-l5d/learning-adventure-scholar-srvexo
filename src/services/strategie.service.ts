@@ -21,7 +21,7 @@ export class StrategieService {
       const nextId = await axios.get(`${config.STRAT_URL}/next/${id}`);
       return nextId.data.next; // /next/:id renvoie {"next":"..."}
     } catch (err) {
-      throw new AppError(`Not found: ${err}`, 404);
+      throw new AppError(`service not found`, 500);
     }
   }
 }
