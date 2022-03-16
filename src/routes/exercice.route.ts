@@ -89,4 +89,22 @@ function convertFiltersExpressToMangoose(filters: qs.ParsedQs): FilterQuery<Exer
 
 exerciceRouter.get('/', getAllExercicesWithFilters);
 
+/**
+ * Rajoute une liste d'exercices à la bdd
+ *
+ * @param req Objet Request d'Express -> req.body sous la forme de ExerciceComplet[]
+ * @param res Object Response d'Express
+ * @param next
+ */
+const postNewExercices: RequestHandler = (req, res, next) => {
+  const exercicesRecolted = req.body;
+  ExerciceService.postNewExercices(exercicesRecolted)
+    .then(() => {
+      res.status(200).json(req.body);
+    })
+    .catch(next);
+};
+
+exerciceRouter.post('/', postNewExercices);
+
 export default exerciceRouter;

@@ -47,3 +47,24 @@ export const getAllExercicesWithFilters = async (
   }
   throw new AppError(envDependent('', 'getAllExercicesWithFilters: ') + 'Exercices not found', 404);
 };
+
+/**
+ * Insère un exercice dans la bdd
+ *
+ * @throws Error s'il se produit une erreur lors de l'insertion dans la bdd (mauvais paramètres, erreur de connexion à la bdd, etc.)
+ * @param exercicesRecolted JSON les exercices à insérer dans la bdd
+ * @returns
+ */
+export const postNewExercices = async (exercicesRecolted: ExerciceComplet[]): Promise<void> => {
+  try {
+    await Exercice.create(exercicesRecolted);
+    return;
+  } catch (error) {
+    throw new AppError(
+      envDependent('', 'postNewExercice: ') +
+        'Error during the insertion of a new exercice : ' +
+        error,
+      404,
+    );
+  }
+};
