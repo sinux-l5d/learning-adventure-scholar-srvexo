@@ -12,7 +12,7 @@ const exo_exemple: ExerciceComplet = {
   id: '621dde28dba76f1febefb4f3',
   nom: 'La suite de vanErk',
   difficulte: 8,
-  theme: ['suites', 'fichiers', 'mathématiques'],
+  themes: ['suites', 'fichiers', 'mathématiques'],
   langage: 'c',
   template:
     '#include <stdlib.h>\n#include <stdio.h>\n\nvoid vanErk(int K_MAX) \n{\n    /*K_MAX = what is the maximum K allowed to appear in the sequence*/\n    FILE *fp;\n       fp = fopen("./outputVE.txt", "w+");\n    \n}',
@@ -36,7 +36,7 @@ const exo_result = {
   nomSession: 'que dire ... ',
   tempsMaximum: undefined,
   tempsMoyen: undefined,
-  theme: ['suites', 'fichiers', 'mathématiques'],
+  themes: ['suites', 'fichiers', 'mathématiques'],
 };
 
 describe('Resultat service', () => {
