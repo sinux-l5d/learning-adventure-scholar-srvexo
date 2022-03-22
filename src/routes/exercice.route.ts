@@ -99,8 +99,8 @@ exerciceRouter.get('/', getAllExercicesWithFilters);
 const postNewExercices: RequestHandler = (req, res, next) => {
   const exercicesRecolted = req.body;
   ExerciceService.postNewExercices(exercicesRecolted)
-    .then(() => {
-      res.status(200).json(req.body);
+    .then((value) => {
+      res.status(200).json(value);
     })
     .catch(next);
 };

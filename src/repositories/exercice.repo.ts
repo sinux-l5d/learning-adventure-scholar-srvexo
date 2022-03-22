@@ -55,10 +55,11 @@ export const getAllExercicesWithFilters = async (
  * @param exercicesRecolted JSON les exercices à insérer dans la bdd
  * @returns
  */
-export const postNewExercices = async (exercicesRecolted: ExerciceComplet[]): Promise<void> => {
+export const postNewExercices = async (
+  exercicesRecolted: ExerciceComplet[],
+): Promise<ExerciceComplet[]> => {
   try {
-    await Exercice.create(exercicesRecolted);
-    return;
+    return await Exercice.create(exercicesRecolted);
   } catch (error) {
     throw new AppError(
       envDependent('', 'postNewExercice: ') +

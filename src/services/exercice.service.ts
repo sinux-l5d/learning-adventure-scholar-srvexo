@@ -49,8 +49,9 @@ export class ExerciceService {
    * @returns
    * @throws Error si erreur lors de l'insertion
    */
-  public static async postNewExercices(exercicesRecolted: ExerciceComplet[]): Promise<void> {
-    await repo.postNewExercices(exercicesRecolted);
-    return;
+  public static async postNewExercices(
+    exercicesRecolted: ExerciceComplet[],
+  ): Promise<ExerciceComplet[]> {
+    return await repo.postNewExercices(exercicesRecolted);
   }
 }
