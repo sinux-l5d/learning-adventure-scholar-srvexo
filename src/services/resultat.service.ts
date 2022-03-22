@@ -31,7 +31,7 @@ export class ResultatService {
       langage: exo['langage'],
       difficulte: exo['difficulte'],
       auteurs: exo['auteurs'],
-      theme: exo['theme'],
+      themes: exo['themes'],
       tempsMaximum: exo['tempsMaximum'],
       tempsMoyen: exo['tempsMoyen'],
     };
