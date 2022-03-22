@@ -235,7 +235,7 @@ describe('Service exercice', () => {
   test("postNewExercices : test d'entrer un exo unique", async () => {
     mockRepo.postNewExercices.mockResolvedValueOnce(newListeExerciceSingleResolved);
     const requestResult = await ExerciceService.postNewExercices(
-      <ExerciceComplet[]>newListeExerciceSingle,
+      newListeExerciceSingle as ExerciceComplet[],
     );
     expect(requestResult).toBeDefined();
     expect(requestResult).toEqual(newListeExerciceSingleResolved);
@@ -244,7 +244,7 @@ describe('Service exercice', () => {
   test("postNewExercices : test d'entrer plusieurs exos", async () => {
     mockRepo.postNewExercices.mockResolvedValueOnce(newListeExerciceMultipleResolved);
     const requestResult = await ExerciceService.postNewExercices(
-      <ExerciceComplet[]>newListeExerciceMultiple,
+      newListeExerciceMultiple as ExerciceComplet[],
     );
     expect(requestResult).toBeDefined();
     expect(requestResult).toEqual(newListeExerciceMultipleResolved);
@@ -260,12 +260,12 @@ describe('Service exercice', () => {
   test("postNewExercices : test d'entrer 'rien'", async () => {
     mockRepo.postNewExercices.mockResolvedValueOnce([]);
     try {
-      await ExerciceService.postNewExercices(<ExerciceComplet[]>(<any>null));
+      await ExerciceService.postNewExercices(null as unknown as ExerciceComplet[]);
     } catch (err) {
       expect(err).toBeInstanceOf(AppError);
     }
     try {
-      await ExerciceService.postNewExercices(<ExerciceComplet[]>(<any>undefined));
+      await ExerciceService.postNewExercices(undefined as unknown as ExerciceComplet[]);
     } catch (err) {
       expect(err).toBeInstanceOf(AppError);
     }
