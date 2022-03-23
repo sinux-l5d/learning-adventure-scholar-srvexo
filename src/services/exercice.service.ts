@@ -1,8 +1,6 @@
 import { ExerciceComplet } from '@type/exercice/ExerciceComplet';
 import * as repo from '@repositories/exercice.repo';
 import { FilterQuery } from 'mongoose';
-import { AppError } from '@helpers/AppError.helper';
-import { envDependent } from '@helpers/env.helper';
 
 /**
  * Service de gestion des exercices
@@ -43,5 +41,17 @@ export class ExerciceService {
     const tableauExo = await repo.getAllExercicesWithFilters(filters); // recupere les exercices en fonction des filtres
     const indiceExercice = Math.floor(Math.random() * tableauExo.length); // calcul un indice random entre 0 et tableauExo.length (tableauExo.length exclut)
     return tableauExo[indiceExercice];
+  }
+
+  /**
+   *
+   * @param exercicesRecolted JSON les exercices à insérer en bdd
+   * @returns
+   * @throws Error si erreur lors de l'insertion
+   */
+  public static async postNewExercices(
+    exercicesRecolted: ExerciceComplet[],
+  ): Promise<ExerciceComplet[]> {
+    return await repo.postNewExercices(exercicesRecolted);
   }
 }

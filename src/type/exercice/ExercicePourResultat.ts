@@ -3,26 +3,31 @@ import { Test } from './Test';
 /**
  * Forme d'un exercice complet
  */
-export type ExerciceComplet = {
+export type ExercicePourResultat = {
   /**
    * ID d'un exercice au format ObjectID (Mongo)
    */
-  id: string;
+  idExo: string;
+
+  /**
+   * Id étudiant
+   */
+  idEtu: string;
+
+  /**
+   * Id session
+   */
+  idSession: string;
 
   /**
    * Nom de l'exercice
    */
-  nom: string;
+  nomExo: string;
 
   /**
-   * template de l'exercice
+   * Nom de l'exercice
    */
-  template: string;
-
-  /**
-   * énoncé de l'exercice
-   */
-  enonce: string;
+  nomSession: string;
 
   /**
    * Difficulté de l'exercice
@@ -56,33 +61,7 @@ export type ExerciceComplet = {
   tempsMaximum?: number;
 
   /**
-   * Data set de l'exercice.
-   * Contient le contexte et les jeux de tests de l'exercice
-   */
-  dataset: Array<{ contexte: string; jeuDeTests: Array<Test> }>;
-
-  /**
-   * Correction de l'exercice
-   */
-  correction: string;
-
-  /**
-   * Commentaire sur la correction de l'exercice
-   */
-  commentaire?: string;
-
-  /**
-   * Aides envoyé à l'étudiant après plusieurs erreures
-   */
-  aides?: Array<string>;
-
-  /**
    * Auteurs de l'exercice
    */
   auteurs: Array<string>;
-
-  /**
-   * Session ou l'exercice est utilisé
-   */
-  session?: string;
 };

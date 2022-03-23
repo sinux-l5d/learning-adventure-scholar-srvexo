@@ -38,7 +38,7 @@ const ExerciceSchema = new Schema<ExerciceComplet>({
     min: 1,
     max: 10,
   },
-  theme: {
+  themes: {
     type: [String],
     required: true,
   },
@@ -83,15 +83,25 @@ const ExerciceSchema = new Schema<ExerciceComplet>({
   },
 });
 
-ExerciceSchema.set('toObject', {
-  getters: false,
-  virtuals: false,
-  versionKey: false,
-  flattenMaps: true,
-  transform: (_doc, ret, _options) => {
-    ret.id = ret._id + ''; // transformer ObjectID en string
-    delete ret._id;
-  },
+[ExerciceSchema, TestSchema].forEach((schema) => {
+  // Enlève les propriétés non voulu lorsque l'on transforme en JSON
+  schema.set('toJSON', {
+    // pour avoir `id`, alias natif de `_id`. virtual = alias
+    virtuals: true,
+    // pour ne pas avoir __v, version du document par Mongoose
+    versionKey: false,
+    // true par défaut, mais pour que vous sachiez: convertie les Maps en POJO
+    flattenMaps: true,
+    getters: false,
+    // delete `_id` manuellement
+    transform: (_doc, ret) => {
+      delete ret._id;
+      return ret;
+    },
+  });
+
+  // Si un filtre ne recherche utilise une clé non existante, on renvoie une erreur
+  schema.set('strictQuery', false);
 });
 
 export const Exercice = model('Exercice', ExerciceSchema);
