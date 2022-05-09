@@ -62,10 +62,18 @@ export const postNewExercices = async (
     return await Exercice.create(exercicesRecolted);
   } catch (error) {
     throw new AppError(
-      envDependent('', 'postNewExercice: ') +
-        'Error during the insertion of a new exercice : ' +
-        error,
-      404,
+      envDependent('', 'postNewExercice: ') + "Impossible d'ajouter un exercice : " + error,
+      400,
     );
   }
+};
+
+/**
+ * Renvoie true si un exercice existe pour cette ID
+ * @param id L'identifiant de l'exercice à vérifier
+ * @returns Vrai s'il existe, faux sinon
+ */
+export const exist = async (id: ExerciceComplet['id']): Promise<boolean> => {
+  const exo = await Exercice.exists({ _id: id });
+  return !!exo;
 };

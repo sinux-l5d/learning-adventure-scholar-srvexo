@@ -45,3 +45,14 @@ export const getAllSessions = async (populate = false): Promise<SessionComplet[]
 
   return sessions;
 };
+
+export const addSession = async (session: SessionComplet): Promise<SessionComplet> => {
+  try {
+    return await Session.create(session);
+  } catch (error) {
+    throw new AppError(
+      envDependent('', 'addSession: ') + 'Erreur lors de la création de la session : ' + error,
+      400,
+    );
+  }
+};

@@ -28,8 +28,18 @@ const getSessionById: RequestHandler = (req, res, next) => {
     .catch(next);
 };
 
+const addSession: RequestHandler = (req, res, next) => {
+  const session = req.body;
+  SessionService.addSession(session)
+    .then((session) => {
+      res.status(200).json({ session });
+    })
+    .catch(next);
+};
+
 const sessionRouter = Router();
 sessionRouter.get('/:id', getSessionById);
 sessionRouter.get('/', getAllSessions);
+sessionRouter.post('/', addSession);
 
 export default sessionRouter;

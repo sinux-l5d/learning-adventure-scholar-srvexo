@@ -1,5 +1,7 @@
+import { AppError } from '@helpers/AppError.helper';
 import * as repo from '@repositories/session.repo';
 import { SessionComplet } from '@type/session/SessionComplet';
+import { ExerciceService } from './exercice.service';
 
 export class SessionService {
   /**
@@ -19,5 +21,21 @@ export class SessionService {
    */
   public static async getAllSessions(populate = false): Promise<SessionComplet[]> {
     return await repo.getAllSessions(populate);
+  }
+
+  /**
+   * Ajoute une session à la base de données.
+   * @param session La session à ajouter
+   * @returns La session ajoutée
+   * @throws AppError si l'ID d'un exercice n'existe pas
+   */
+  public static async addSession(session: SessionComplet): Promise<SessionComplet> {
+    const exercices = session.exercices;
+
+    for (const id of exercices)
+      if (!(await ExerciceService.exist(id)))
+        throw new AppError(`L'exercice ${id} n'existe pas`, 404);
+
+    return await repo.addSession(session);
   }
 }
