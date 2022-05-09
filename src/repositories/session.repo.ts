@@ -3,6 +3,12 @@ import { AppError } from '@helpers/AppError.helper';
 import { envDependent } from '@helpers/env.helper';
 import { SessionComplet } from '@type/session/SessionComplet';
 
+/**
+ * Renvoie une session par son ID, et si le paramètre populate est vrai, remplit la session avec des objets exercices
+ * @param id L'identifiant de la session à obtenir
+ * @param populate Remplacer les ID par des objets exercices
+ * @returns Un objet de session
+ */
 export const getSessionById = async (id: string, populate = false): Promise<SessionComplet> => {
   let session;
 
@@ -22,4 +28,20 @@ export const getSessionById = async (id: string, populate = false): Promise<Sess
   } else {
     return session;
   }
+};
+
+/**
+ * Renvoie toutes les sessions de la base de données
+ * @param populate Remplacer les ID par des objets exercices
+ * @returns Un tableau de sessions
+ */
+export const getAllSessions = async (populate = false): Promise<SessionComplet[]> => {
+  const sessions = await Session.find().exec();
+
+  if (populate)
+    for (const session of sessions) {
+      await session.populate('exercices');
+    }
+
+  return sessions;
 };

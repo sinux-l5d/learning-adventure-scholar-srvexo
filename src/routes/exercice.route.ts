@@ -4,8 +4,6 @@ import { ExerciceService } from '@services/exercice.service';
 import { ResultatService } from '@services/resultat.service';
 import { convertFiltersExpressToMangoose } from '@helpers/convertFiltersExpressToMangoose';
 
-const exerciceRouter = Router();
-
 /**
  * Renvoie _un exercice en fonction des critères de recherche
  *
@@ -98,6 +96,7 @@ const postNewExercices: RequestHandler = (req, res, next) => {
     .catch(next);
 };
 
+const exerciceRouter = Router();
 exerciceRouter.get('/one', getExercicesWithFilters);
 exerciceRouter.get('/:id', getExerciceCompletById);
 exerciceRouter.get('/:id/next', getExerciceCompletNext);
