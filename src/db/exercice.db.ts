@@ -100,7 +100,7 @@ const ExerciceSchema = new Schema<ExerciceComplet>({
     },
   });
 
-  // Si un filtre ne recherche utilise une clé non existante, on renvoie une erreur
+  // Si un filtre de recherche utilise une clé non existante, on renvoie une erreur
   schema.set('strictQuery', false);
 });
 

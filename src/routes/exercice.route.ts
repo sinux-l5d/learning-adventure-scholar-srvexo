@@ -21,8 +21,6 @@ const getExercicesWithFilters: RequestHandler = async (req, res, next) => {
     .catch(next);
 };
 
-exerciceRouter.get('/one', getExercicesWithFilters);
-
 /**
  * Renvoie un exercice d'après son ID
  *
@@ -69,9 +67,6 @@ const getExerciceCompletNext: RequestHandler = async (req, res, next) => {
     .catch(next);
 };
 
-exerciceRouter.get('/:id', getExerciceCompletById);
-exerciceRouter.get('/:id/next', getExerciceCompletNext);
-
 /**
  * Renvoie tous les exercices de la db
  *
@@ -86,8 +81,6 @@ const getAllExercicesWithFilters: RequestHandler = (req, res, next) => {
     })
     .catch(next);
 };
-
-exerciceRouter.get('/', getAllExercicesWithFilters);
 
 /**
  * Rajoute une liste d'exercices à la bdd
@@ -105,6 +98,10 @@ const postNewExercices: RequestHandler = (req, res, next) => {
     .catch(next);
 };
 
+exerciceRouter.get('/one', getExercicesWithFilters);
+exerciceRouter.get('/:id', getExerciceCompletById);
+exerciceRouter.get('/:id/next', getExerciceCompletNext);
+exerciceRouter.get('/', getAllExercicesWithFilters);
 exerciceRouter.post('/', postNewExercices);
 
 export default exerciceRouter;
