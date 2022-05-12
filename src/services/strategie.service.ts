@@ -19,7 +19,7 @@ export class StrategieService {
   public static async getNextExercice(
     strategie: SessionComplet['strategie'],
     exercices: ExerciceComplet[],
-    exerciceCourant: ExerciceComplet['id'],
+    exerciceCourant?: ExerciceComplet['id'],
   ): Promise<ExerciceComplet> {
     // Make a request for an exercice with a given ID
     try {
