@@ -78,9 +78,6 @@ const ExerciceSchema = new Schema<ExerciceComplet>({
     type: [String],
     required: true,
   },
-  session: {
-    type: String,
-  },
 });
 
 [ExerciceSchema, TestSchema].forEach((schema) => {
