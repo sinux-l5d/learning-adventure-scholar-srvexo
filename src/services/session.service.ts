@@ -63,7 +63,7 @@ export class SessionService {
   public static async getNextExerciceOfSession(
     idSession: SessionComplet['id'],
     idExercice: ExerciceComplet['id'] | 'init',
-  ): Promise<ExerciceComplet> {
+  ): Promise<ExerciceComplet | undefined> {
     const session = await SessionService.getSessionById(idSession, true);
     const strategie = session.strategie;
     const exercices = session.exercices as ExerciceComplet[];
@@ -79,7 +79,7 @@ export class SessionService {
     if (!found && idExercice !== 'init')
       throw new AppError(`L'exercice ${idExercice} n'est pas dans la session ${idSession}`, 404);
 
-    const nextExo: ExerciceComplet = await StrategieService.getNextExercice(
+    const nextExo = await StrategieService.getNextExercice(
       strategie,
       exercices,
       idExercice === 'init' ? undefined : idExercice,

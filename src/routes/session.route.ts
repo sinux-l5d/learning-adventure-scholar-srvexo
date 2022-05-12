@@ -64,6 +64,8 @@ const getNextExerciceOfSession: RequestHandler = (req, res, next) => {
     .then((exerciceSuivant) => {
       res.status(200).json({ exerciceSuivant });
 
+      if (!exerciceSuivant) return;
+
       // Une fois l'exercice envoyé à l'étudiant, les données sont envoyées au service résultat
       // TODO: Gerer l'id des etudiant avec adresse mail/nom prenom
       ResultatService.postExercicePourResultat(exerciceSuivant, 'etu', idSession)
