@@ -2,6 +2,7 @@ import { Session } from '@db/session.db';
 import { AppError } from '@helpers/AppError.helper';
 import { envDependent } from '@helpers/env.helper';
 import { SessionComplet } from '@type/session/SessionComplet';
+import { SessionReq } from '@type/session/SessionReq';
 
 /**
  * Renvoie une session par son ID, et si le paramètre populate est vrai, remplit la session avec des objets exercices
@@ -38,17 +39,31 @@ export const getSessionById = async (id: string, populate = false): Promise<Sess
 export const getAllSessions = async (populate = false): Promise<SessionComplet[]> => {
   const sessions = await Session.find().exec();
 
+  // prettier-ignore
   if (populate)
-    for (const session of sessions) {
+    for (const session of sessions)
       await session.populate('exercices');
-    }
 
   return sessions;
 };
 
-export const addSession = async (session: SessionComplet): Promise<SessionComplet> => {
+/**
+ * Ajoute une nouvelle session dans la base de données
+ * @param session - La session SessionReq (session sans id) à ajouter
+ * @returns Une promesse de SessionComplet (session avec un id)
+ * @throws Error si la session n'a pas pu être créer
+ */
+export const addSession = async (
+  session: SessionReq,
+  populate = false,
+): Promise<SessionComplet> => {
   try {
-    return await Session.create(session);
+    const sessionDB = new Session(session);
+    await sessionDB.save();
+
+    if (populate) await sessionDB.populate('exercices');
+
+    return sessionDB;
   } catch (error) {
     throw new AppError(
       envDependent('', 'addSession: ') + 'Erreur lors de la création de la session : ' + error,

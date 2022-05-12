@@ -1,4 +1,6 @@
+import { ResultatService } from '@services/resultat.service';
 import { SessionService } from '@services/session.service';
+import { SessionReq } from '@type/session/SessionReq';
 import { RequestHandler, Router } from 'express';
 
 /**
@@ -28,16 +30,54 @@ const getSessionById: RequestHandler = (req, res, next) => {
     .catch(next);
 };
 
+/**
+ * Ajouter une session à la base de données.
+ */
 const addSession: RequestHandler = (req, res, next) => {
-  const session = req.body;
-  SessionService.addSession(session)
+  const session: SessionReq = req.body;
+  const populate = req.query.populate + '' === 'true';
+  SessionService.addSession(session, populate)
     .then((session) => {
       res.status(200).json({ session });
     })
     .catch(next);
 };
 
+/**
+ * Recupere les exercices d'un session donnée
+ */
+const getExercicesOfSession: RequestHandler = (req, res, next) => {
+  const id = req.params.id;
+  const populate = req.query.populate + '' === 'true';
+  SessionService.getExercicesOfSession(id, populate)
+    .then((exercices) => {
+      res.status(200).json({ exercices });
+    })
+    .catch(next);
+};
+
+const getNextExerciceOfSession: RequestHandler = (req, res, next) => {
+  const idSession = req.params.idSession;
+  const idExercice = req.params.idExercice;
+
+  SessionService.getNextExerciceOfSession(idSession, idExercice)
+    .then((exerciceSuivant) => {
+      res.status(200).json({ exerciceSuivant });
+
+      // Une fois l'exercice envoyé à l'étudiant, les données sont envoyées au service résultat
+      // TODO: Gerer l'id des etudiant avec adresse mail/nom prenom
+      ResultatService.postExercicePourResultat(exerciceSuivant, 'etu', idSession)
+        .then((success) => {
+          console.log(success);
+        })
+        .catch(console.error);
+    })
+    .catch(next);
+};
+
 const sessionRouter = Router();
+sessionRouter.get('/:idSession/exercices/:idExercice/next', getNextExerciceOfSession);
+sessionRouter.get('/:id/exercices', getExercicesOfSession);
 sessionRouter.get('/:id', getSessionById);
 sessionRouter.get('/', getAllSessions);
 sessionRouter.post('/', addSession);
