@@ -5,7 +5,7 @@ type ObjectId = string;
 /**
  * Une seance est encadré par un enseignant. Il peut y avoir plusieurs séances en parallèle, avec des groupes différents.
  * Un groupe n'est pas utilisé pour le moment.
- * @property groupe - Le groupe de la séance
+ * @property groupe - Nom du groupe de la séance
  * @property encadrant - L'enseignant de la séance
  * @property dateDebut - La date de début de la séance
  * @property dateFin - La date de fin de la séance

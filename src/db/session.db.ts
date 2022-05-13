@@ -1,5 +1,25 @@
 import { SessionComplet } from '@type/session/SessionComplet';
+import { Seance } from '@type/session/SessionReq';
 import { Document, model, Schema } from 'mongoose';
+
+const SeanceSchema = new Schema<Seance>({
+  groupe: {
+    type: String,
+    required: true,
+  },
+  dateDebut: {
+    type: Date,
+    required: true,
+  },
+  dateFin: {
+    type: Date,
+    required: true,
+  },
+  encadrant: {
+    type: String,
+    required: true,
+  },
+});
 
 const SessionSchema = new Schema({
   strategie: {
@@ -12,18 +32,7 @@ const SessionSchema = new Schema({
     required: true,
   },
   seances: {
-    type: [
-      {
-        groupe: {
-          type: String,
-          required: true,
-        },
-        date: {
-          type: Date,
-          required: true,
-        },
-      },
-    ],
+    type: [SeanceSchema],
     required: false,
   },
   exercices: {
@@ -32,22 +41,23 @@ const SessionSchema = new Schema({
   },
 });
 
-SessionSchema.set('toJSON', {
-  // pour avoir `id`, alias natif de `_id`. virtual = alias
-  virtuals: true,
-  // pour ne pas avoir __v, version du document par Mongoose
-  versionKey: false,
-  // true par défaut, mais pour que vous sachiez: convertie les Maps en POJO
-  flattenMaps: true,
-  getters: false,
-  // delete `_id` manuellement
-  transform: (_doc, ret) => {
-    delete ret._id;
-    return ret;
-  },
+[SessionSchema, SeanceSchema].forEach((schema) => {
+  schema.set('toJSON', {
+    // pour avoir `id`, alias natif de `_id`. virtual = alias
+    virtuals: true,
+    // pour ne pas avoir __v, version du document par Mongoose
+    versionKey: false,
+    // true par défaut, mais pour que vous sachiez: convertie les Maps en POJO
+    flattenMaps: true,
+    getters: false,
+    // delete `_id` manuellement
+    transform: (_doc, ret) => {
+      delete ret._id;
+      return ret;
+    },
+  });
+  schema.set('strictQuery', false);
 });
-
-SessionSchema.set('strictQuery', false);
 
 // Type ici car je n'es pas pu faire Schema<SessionComplet> : conflit sur SessionSchema.exercices avec type initial
 export const Session = model<SessionComplet & Document>('Session', SessionSchema);
