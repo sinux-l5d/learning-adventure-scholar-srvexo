@@ -8,6 +8,7 @@ import { ExerciceService } from './exercice.service';
 
 /**
  * Service de gestion des appels au service stratégie
+ * @throws Error si le service stratégie n'est pas accessible
  */
 export class StrategieService {
   /**

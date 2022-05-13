@@ -1,4 +1,5 @@
-import { handleUserHeader } from '@middlewares/user.middleware';
+import { AppError } from '@helpers/AppError.helper';
+import { handleSeanceHeader, handleUserHeader } from '@middlewares/user.middleware';
 import { ResultatService } from '@services/resultat.service';
 import { SessionService } from '@services/session.service';
 import { SessionReq } from '@type/session/SessionReq';
@@ -57,22 +58,46 @@ const getExercicesOfSession: RequestHandler = (req, res, next) => {
     .catch(next);
 };
 
+/**
+ * Recupere l'exercice suivant selon la strategie donnée et envoie au service résultat l'exercice
+ * commencé par l'étudiant
+ */
 const getNextExerciceOfSession: RequestHandler = (req, res, next) => {
   const idSession = req.params.idSession;
   const idExercice = req.params.idExercice;
 
-  SessionService.getNextExerciceOfSession(idSession, idExercice)
-    .then((exerciceSuivant) => {
-      res.status(200).json({ exerciceSuivant });
+  // req.seance est défini par le middleware handleSeanceHeader, on force le type à non null
+  SessionService.seanceInSession(idSession, req.seance!)
+    .then((valide) => {
+      if (!valide)
+        throw new AppError(
+          `La séance '${req.seance}' (en header) n\'est pas dans la session '${idSession}'`,
+          400,
+        );
+    })
+    .then(() => {
+      SessionService.getNextExerciceOfSession(idSession, idExercice)
+        .then((exerciceSuivant) => {
+          res.status(200).json({ exerciceSuivant });
 
-      if (!exerciceSuivant) return;
+          // dernier exercice, pas d'envoie à résultat car pas de nouvelle exercice.
+          if (!exerciceSuivant) return;
 
-      // Une fois l'exercice envoyé à l'étudiant, les données sont envoyées au service résultat
-      ResultatService.postExercicePourResultat(exerciceSuivant, req.user!, idSession)
-        .then((success) => {
-          console.log(success);
+          // Une fois l'exercice envoyé à l'étudiant, les données sont envoyées au service résultat
+          // req.user est défini par le middleware handleUserHeader, on force le type à non null
+          // req.seance est défini par le middleware handleSeanceHeader, on force le type à non null
+          ResultatService.postExercicePourResultat(
+            exerciceSuivant,
+            req.user!,
+            idSession,
+            req.seance!,
+          )
+            .then((success) => {
+              console.log(success);
+            })
+            .catch(console.error);
         })
-        .catch(console.error);
+        .catch(next);
     })
     .catch(next);
 };
@@ -81,6 +106,7 @@ const sessionRouter = Router();
 sessionRouter.get(
   '/:idSession/exercices/:idExercice/next',
   handleUserHeader,
+  handleSeanceHeader,
   getNextExerciceOfSession,
 );
 sessionRouter.get('/:id/exercices', getExercicesOfSession);

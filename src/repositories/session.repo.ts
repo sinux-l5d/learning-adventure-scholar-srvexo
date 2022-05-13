@@ -9,6 +9,7 @@ import { SessionReq } from '@type/session/SessionReq';
  * @param id L'identifiant de la session à obtenir
  * @param populate Remplacer les ID par des objets exercices
  * @returns Un objet de session
+ * @throws AppError si l'ID de l'exercice n'existe pas, ou si l'ID de la session n'est pas au format ObjectId
  */
 export const getSessionById = async (id: string, populate = false): Promise<SessionComplet> => {
   let session;

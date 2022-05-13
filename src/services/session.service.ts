@@ -2,7 +2,7 @@ import { AppError } from '@helpers/AppError.helper';
 import * as repo from '@repositories/session.repo';
 import { ExerciceComplet } from '@type/exercice/ExerciceComplet';
 import { SessionComplet } from '@type/session/SessionComplet';
-import { SessionReq } from '@type/session/SessionReq';
+import { Seance, SessionReq } from '@type/session/SessionReq';
 import { ExerciceService } from './exercice.service';
 import { StrategieService } from './strategie.service';
 
@@ -12,6 +12,7 @@ export class SessionService {
    * @param id L'identifiant de la session que vous souhaitez obtenir
    * @param populate Remplacer les ID par des objets exercices
    * @returns Une session
+   * @throws AppError si l'ID de l'exercice n'existe pas, ou si l'ID de la session n'est pas au format ObjectId
    */
   public static async getSessionById(
     id: SessionComplet['id'],
@@ -60,6 +61,13 @@ export class SessionService {
     return await repo.addSession(session, populate);
   }
 
+  /**
+   * Renvoie l'exercice suivant d'une session, compte tenu de l'exercice en cours
+   * @param idSession - l'identifiant de la session
+   * @param idExercice - l'identifiant de l'exercice en cours,
+   * @returns Le prochain exercice d'une session
+   * @throws Error si le service stratégie n'est pas accessible
+   */
   public static async getNextExerciceOfSession(
     idSession: SessionComplet['id'],
     idExercice: ExerciceComplet['id'] | 'init',
@@ -86,5 +94,35 @@ export class SessionService {
     );
 
     return nextExo;
+  }
+
+  /**
+   * Vérifie si une séance est dans une session
+   * @param idSession - L'identifiant de la session
+   * @param idSeance - L'identifiant de la séance
+   * @returns Un booléen indiquant si la séance est dans la session
+   */
+  public static async seanceInSession(
+    idSession: SessionComplet['id'],
+    idSeance: Seance['id'],
+  ): Promise<boolean> {
+    let session: SessionComplet;
+
+    try {
+      session = await SessionService.getSessionById(idSession, false);
+    } catch {
+      return false;
+    }
+
+    const seances = session.seances;
+
+    if (!seances) return false;
+
+    // prettier-ignore
+    for (const seance of seances) 
+      if (seance.id === idSeance) 
+        return true;
+
+    return false;
   }
 }
