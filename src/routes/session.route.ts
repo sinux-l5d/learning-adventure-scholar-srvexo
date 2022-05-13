@@ -1,3 +1,4 @@
+import { handleUserHeader } from '@middlewares/user.middleware';
 import { ResultatService } from '@services/resultat.service';
 import { SessionService } from '@services/session.service';
 import { SessionReq } from '@type/session/SessionReq';
@@ -67,8 +68,7 @@ const getNextExerciceOfSession: RequestHandler = (req, res, next) => {
       if (!exerciceSuivant) return;
 
       // Une fois l'exercice envoyé à l'étudiant, les données sont envoyées au service résultat
-      // TODO: Gerer l'id des etudiant avec adresse mail/nom prenom
-      ResultatService.postExercicePourResultat(exerciceSuivant, 'etu', idSession)
+      ResultatService.postExercicePourResultat(exerciceSuivant, req.user!, idSession)
         .then((success) => {
           console.log(success);
         })
@@ -78,7 +78,11 @@ const getNextExerciceOfSession: RequestHandler = (req, res, next) => {
 };
 
 const sessionRouter = Router();
-sessionRouter.get('/:idSession/exercices/:idExercice/next', getNextExerciceOfSession);
+sessionRouter.get(
+  '/:idSession/exercices/:idExercice/next',
+  handleUserHeader,
+  getNextExerciceOfSession,
+);
 sessionRouter.get('/:id/exercices', getExercicesOfSession);
 sessionRouter.get('/:id', getSessionById);
 sessionRouter.get('/', getAllSessions);

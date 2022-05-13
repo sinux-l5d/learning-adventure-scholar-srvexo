@@ -1,7 +1,7 @@
 import express from 'express';
 import config from '@config';
 import { handleMiddlewareErrors } from './middlewares/error.middleware';
-import globalRouter from './routes';
+import globalRouter from '@routes';
 
 /**
  * Application express gérant les appelles aux fonctions en fonction du chemin
@@ -21,7 +21,7 @@ app.use(function (_req, res, next) {
   res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
 
   // Request headers you wish to allow
-  res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With,content-type');
+  res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With,content-type,X-Etudiant-ID');
 
   // Pass to next layer of middleware
   next();
