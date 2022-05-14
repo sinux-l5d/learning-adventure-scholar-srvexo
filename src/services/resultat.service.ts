@@ -2,6 +2,7 @@ import { ExercicePourResultat } from '@type/exercice/ExercicePourResultat';
 import { ExerciceComplet } from '@type/exercice/ExerciceComplet';
 import axios from 'axios';
 import config from '@config';
+import { SessionService } from './session.service';
 
 /**
  * Service de gestion d'envoi d'exercices au service résultat
@@ -17,6 +18,7 @@ export class ResultatService {
     exo: ExerciceComplet,
     etu: ExercicePourResultat['idEtu'],
     ses: ExercicePourResultat['idSession'],
+    nomSession: ExercicePourResultat['nomSession'],
     seance: ExercicePourResultat['idSeance'],
   ): ExercicePourResultat {
     // ajouter l'id étudiant
@@ -27,6 +29,7 @@ export class ResultatService {
       idExo: exo['id'],
       idSession: ses,
       idSeance: seance,
+      nomSession: nomSession,
       nomExo: exo['nom'],
       langage: exo['langage'],
       difficulte: exo['difficulte'],
@@ -53,10 +56,12 @@ export class ResultatService {
     ses: ExercicePourResultat['idSession'],
     seance: ExercicePourResultat['idSeance'],
   ) {
+    const nomSession = (await SessionService.getSessionById(ses, false)).nom;
     const resJSON: ExercicePourResultat = ResultatService.construireExercicePourResultat(
       exo,
       etu,
       ses,
+      nomSession,
       seance,
     );
     // propage l'erreur s'il y en a une
