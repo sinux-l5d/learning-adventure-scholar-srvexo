@@ -78,9 +78,6 @@ const ExerciceSchema = new Schema<ExerciceComplet>({
     type: [String],
     required: true,
   },
-  session: {
-    type: String,
-  },
 });
 
 [ExerciceSchema, TestSchema].forEach((schema) => {
@@ -100,7 +97,7 @@ const ExerciceSchema = new Schema<ExerciceComplet>({
     },
   });
 
-  // Si un filtre ne recherche utilise une clé non existante, on renvoie une erreur
+  // Si un filtre de recherche utilise une clé non existante, on renvoie une erreur
   schema.set('strictQuery', false);
 });
 

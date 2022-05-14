@@ -80,9 +80,4 @@ export type ExerciceComplet = {
    * Auteurs de l'exercice
    */
   auteurs: Array<string>;
-
-  /**
-   * Session ou l'exercice est utilisé
-   */
-  session?: string;
 };

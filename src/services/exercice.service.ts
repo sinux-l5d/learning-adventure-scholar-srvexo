@@ -54,4 +54,13 @@ export class ExerciceService {
   ): Promise<ExerciceComplet[]> {
     return await repo.postNewExercices(exercicesRecolted);
   }
+
+  /**
+   * Renvoie vrai si l'exercice existe en bdd
+   * @param id ID de l'exercice à vérifier
+   * @returns True si l'exercice existe, false sinon
+   */
+  public static async exist(id: ExerciceComplet['id']): Promise<boolean> {
+    return await repo.exist(id);
+  }
 }

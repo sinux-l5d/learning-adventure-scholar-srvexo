@@ -13,7 +13,7 @@
     "skipLibCheck": true,
     "moduleResolution": "Node",
     "types": ["node", "@types/jest"],
-    "typeRoots": ["./node_modules/@types"],
+    "typeRoots": ["./node_modules/@types", "./src/type"],
     "forceConsistentCasingInFileNames": true,
     "baseUrl": "./",
     "paths": {
@@ -23,7 +23,10 @@
       "@db/*": ["src/db/*"],
       "@repositories/*": ["src/repositories/*"],
       "@helpers/*": ["src/helpers/*"],
-      "@services/*": ["src/services/*"]
+      "@services/*": ["src/services/*"],
+      "@middlewares/*": ["src/middlewares/*"],
+      "@routes": ["src/routes/index"],
+      "@routes/*": ["src/routes/*"]
     }
   },
   "include": ["src/**/*.ts", "spec/**/*.ts"],

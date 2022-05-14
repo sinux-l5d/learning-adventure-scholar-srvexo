@@ -2,6 +2,7 @@ import { ExercicePourResultat } from '@type/exercice/ExercicePourResultat';
 import { ExerciceComplet } from '@type/exercice/ExerciceComplet';
 import axios from 'axios';
 import config from '@config';
+import { SessionService } from './session.service';
 
 /**
  * Service de gestion d'envoi d'exercices au service résultat
@@ -17,6 +18,8 @@ export class ResultatService {
     exo: ExerciceComplet,
     etu: ExercicePourResultat['idEtu'],
     ses: ExercicePourResultat['idSession'],
+    nomSession: ExercicePourResultat['nomSession'],
+    seance: ExercicePourResultat['idSeance'],
   ): ExercicePourResultat {
     // ajouter l'id étudiant
     // ajouter id et nom de session
@@ -25,8 +28,8 @@ export class ResultatService {
       idEtu: etu,
       idExo: exo['id'],
       idSession: ses,
-      nomSession:
-        'que dire ... ' /* comment gérer le nom de session ? je pense qu'il ne sert a rien, l'id suffit*/,
+      idSeance: seance,
+      nomSession: nomSession,
       nomExo: exo['nom'],
       langage: exo['langage'],
       difficulte: exo['difficulte'],
@@ -38,15 +41,28 @@ export class ResultatService {
     return resJSON;
   }
 
+  /**
+   * Prend un exercice, un étudiant, une session et une seance, et envoie l'exercice au service de
+   * résultat
+   * @param exo Exercice à envoyer,
+   * @param etu ID de l'étudiant,
+   * @param ses ID de la session
+   * @param seance ID de la séance (se trouvant dans la session),
+   * @throws Error si la requête échoue
+   */
   public static async postExercicePourResultat(
     exo: ExerciceComplet,
     etu: ExercicePourResultat['idEtu'],
     ses: ExercicePourResultat['idSession'],
+    seance: ExercicePourResultat['idSeance'],
   ) {
+    const nomSession = (await SessionService.getSessionById(ses, false)).nom;
     const resJSON: ExercicePourResultat = ResultatService.construireExercicePourResultat(
       exo,
       etu,
       ses,
+      nomSession,
+      seance,
     );
     // propage l'erreur s'il y en a une
     await axios.post(`${config.RESULT_URL}/exercices`, resJSON);
