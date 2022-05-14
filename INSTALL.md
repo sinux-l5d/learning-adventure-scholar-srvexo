@@ -18,7 +18,7 @@
 
 1. Copier env.example.prod en .env et le remplir si besoin (normalement pas besoin) avec docker
 
-2. lancement les conteneurs
+2. lancement les conteneurs (peut prendre jusqu'à 30 secondes)
 
 ```bash
 docker-compose up

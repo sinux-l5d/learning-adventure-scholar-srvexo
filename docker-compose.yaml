@@ -28,7 +28,7 @@ services:
       MONGO_INITDB_PASSWORD: ${MONGO_APP_PWD?error MONGO_APP_PWD is not set}
       MONGO_INITDB_DATABASE: ${MONGO_DB_NAME?error MONGO_DB_NAME is not set}
     healthcheck:
-      test: echo 'db.runCommand({serverStatus:1}).ok' | mongosh -u $MONGO_APP_USER -p $MONGO_APP_PWD --quiet
+      test: echo 'db.runCommand({serverStatus:1}).ok' | mongosh -u $MONGO_INITDB_USER -p $MONGO_INITDB_PASSWORD --quiet
       interval: 20s
       timeout: 10s
       retries: 5
