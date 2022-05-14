@@ -1,7 +1,5 @@
 # Mise en place du service exercice
 
----
-
 ## Version des logiciels nécessaires
 
 [**Docker**](https://www.docker.com/products/docker-desktop) : v20.10.14, build a224086349
@@ -14,30 +12,32 @@
 
 [**nvm**](https://github.com/nvm-sh/nvm) : v0.39.1
 
----
-
 ## Installation avec docker (docker-compose).
 
 **Attention** : bien remplir les champs obligatoires dans le .env.
 
-### 1 - lancement des conteneurs
+1. Copier env.example.prod en .env et le remplir si besoin (normalement pas besoin) avec docker
 
-`docker-compose -f docker-compose.yml up`
+2. lancement les conteneurs
 
-### 2 - suppression des conteneurs
+```bash
+docker-compose up
+```
 
-`docker-compose -f docker-compose.yml down`
+3. Éteindre et supprimer les conteneurs (ajouter -v pour supprimer les volumes de données)
 
----
+```bash
+docker-compose down
+```
 
 ## Installation sans docker
 
 Pour l'installation sans docker, Il est nécessaire d'avoir installé une base de données mongoDB.
 
-### 1 - Build du service exercice
+### Build du service exercice
 
 **Attention** : vérifier que la version de node (v16.13.2) est installée sur votre système.
-Utiliser nvm pour installer la version de node souhaitée.
+Utiliser nvm pour installer la version de node souhaitée si besoin (`nvm install && nvm use`).
 
 1. executer la commande suivante pour installer et/ou mettre a jour les dépendances :
    `npm install`
@@ -45,8 +45,8 @@ Utiliser nvm pour installer la version de node souhaitée.
 2. build le projet :
    `npm run build`
 
-3. installer et/ou mettre a jour les dépendances de production
-   `npm install --production`
+3. Éventuellement, supprimer les dépendances de developpement :
+   `rm -r node_modules && npm install --production`
 
 4. lancer le service :
-   `npm start`
+   `npm run start`
