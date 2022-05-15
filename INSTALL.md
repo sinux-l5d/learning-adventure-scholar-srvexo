@@ -22,6 +22,7 @@
 
 ```bash
 docker-compose up
+# éventuellement avec l'option --build pour être sûr que les conteneurs sont bien à leur dernière version
 ```
 
 3. Éteindre et supprimer les conteneurs (ajouter -v pour supprimer les volumes de données)
@@ -29,6 +30,12 @@ docker-compose up
 ```bash
 docker-compose down
 ```
+
+### Troubleshooting
+
+#### Si le conteneur de DB n'est pas healthy
+
+Nous avons parfois eu des problèmes avec le conteneur de DB. Supprimez toute les images concernant Mongo, puis relancer le service avec docker-compose.
 
 ## Installation sans docker
 
