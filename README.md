@@ -1,5 +1,7 @@
 # LA Web | Service d'exercices
 
+Pour l'installation, voir [INSTALL.md](INSTALL.md).
+
 ## Avant de développer
 
 Avant de commencer à coder sur une nouvelle machine, il y a quelques étapes :
@@ -16,6 +18,8 @@ Husky permet de lancer des scripts (voir plus bas) pour lancer les tests unitair
 2. Démarrer la base de données en mode developpement : `docker-compose -f docker-compose.dev.yaml up`
 3. Démarrer l'application en mode developpement : `npm run start:dev`
 4. Démarrer les tests unitaires en mode developpement : `npm run test:dev`
+
+:warning: il faut supprimer le volume pour recommencer une instance de developpement au propre ! `docker-compose -f docker-compose.dev.yml down -v`
 
 ## Scripts
 
