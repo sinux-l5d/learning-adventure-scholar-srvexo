@@ -71,12 +71,12 @@ const getNextExerciceOfSession: RequestHandler = (req, res, next) => {
     .then((valide) => {
       if (!valide)
         throw new AppError(
-          `La séance '${req.seance}' (en header) n\'est pas dans la session '${idSession}'`,
+          `La séance '${req.seance}' (en header) n'est pas dans la session '${idSession}'`,
           400,
         );
     })
     .then(() => {
-      SessionService.getNextExerciceOfSession(idSession, idExercice)
+      SessionService.getNextExerciceOfSession(idSession, idExercice, req.seance!)
         .then((exerciceSuivant) => {
           res.status(200).json({ exerciceSuivant });
 
