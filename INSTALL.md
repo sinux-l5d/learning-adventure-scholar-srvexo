@@ -16,7 +16,7 @@
 
 **Attention** : bien remplir les champs obligatoires dans le .env.
 
-1. Copier env.example.prod en .env et le remplir si besoin (normalement pas besoin) avec docker
+1. Copier env.example.prod en .env et le remplir si besoin (normalement pas besoin avec docker)
 
 2. lancement les conteneurs (peut prendre jusqu'à 30 secondes)
 
