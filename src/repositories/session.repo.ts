@@ -2,7 +2,7 @@ import { Session } from '@db/session.db';
 import { AppError } from '@helpers/AppError.helper';
 import { envDependent } from '@helpers/env.helper';
 import { SessionComplet } from '@type/session/SessionComplet';
-import { SessionReq } from '@type/session/SessionReq';
+import { Seance, SeanceReq, SessionReq } from '@type/session/SessionReq';
 
 /**
  * Renvoie une session par son ID, et si le paramètre populate est vrai, remplit la session avec des objets exercices
@@ -71,4 +71,36 @@ export const addSession = async (
       400,
     );
   }
+};
+
+/**
+ * Modifie la seance dans la bdd avec les nouvelles données
+ * @param idSession - L'identifiant de la session
+ * @param idSeance - L'identifiant de la séance
+ * @param seance - Les nouvelles données de la séance
+ * @throws AppError si l'ID de la session n'est pas au format ObjectId
+ */
+export const modifierSeance = async (
+  idSession: SessionComplet['id'],
+  idSeance: Seance['id'],
+  seance: SeanceReq,
+): Promise<SessionComplet> => {
+  const toUpdate: { [k: string]: string | Date } = {};
+
+  for (const [key, value] of Object.entries(seance)) {
+    toUpdate['seances.$.' + key] = value;
+  }
+
+  const newDoc = await Session.findOneAndUpdate(
+    { _id: idSession, 'seances._id': idSeance },
+    {
+      $set: toUpdate,
+    },
+    { new: true },
+  ).exec();
+
+  if (!newDoc)
+    throw new AppError(envDependent('', 'modifierSeance: ') + 'Session ou séance non trouvée', 404);
+
+  return newDoc;
 };

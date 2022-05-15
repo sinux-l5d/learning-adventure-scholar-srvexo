@@ -16,6 +16,8 @@ export type Seance = {
   encadrant: string;
 };
 
+export type SeanceReq = Partial<Omit<Seance, 'id'>>;
+
 /**
  * Requête de création d'une session.
  *

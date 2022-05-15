@@ -2,7 +2,7 @@ import { AppError } from '@helpers/AppError.helper';
 import * as repo from '@repositories/session.repo';
 import { ExerciceComplet } from '@type/exercice/ExerciceComplet';
 import { SessionComplet } from '@type/session/SessionComplet';
-import { Seance, SessionReq } from '@type/session/SessionReq';
+import { Seance, SeanceReq, SessionReq } from '@type/session/SessionReq';
 import { ExerciceService } from './exercice.service';
 import { StrategieService } from './strategie.service';
 
@@ -135,5 +135,23 @@ export class SessionService {
         return true;
 
     return false;
+  }
+
+  /**
+   * Modifie la seance dans la bdd avec les nouvelles données
+   * @param idSession - L'identifiant de la session
+   * @param idSeance - L'identifiant de la séance
+   * @param seance - Les nouvelles données de la séance
+   * @throws AppError si l'ID de la séance n'est pas dans la session
+   */
+  public static async modifierSeance(
+    idSession: SessionComplet['id'],
+    idSeance: Seance['id'],
+    seance: SeanceReq,
+  ): Promise<SessionComplet> {
+    if (!(await SessionService.seanceInSession(idSession, idSeance)))
+      throw new AppError(`La séance ${idSeance} n'est pas dans la session ${idSession}`, 404);
+
+    return repo.modifierSeance(idSession, idSeance, seance);
   }
 }
