@@ -20,14 +20,19 @@ export type ExercicePourResultat = {
   idSession: string;
 
   /**
-   * Nom de l'exercice
+   * Le nom de la session correspondant à l'idSession
    */
-  nomExo: string;
+  nomSession: string;
+
+  /**
+   * Id séance
+   */
+  idSeance: string;
 
   /**
    * Nom de l'exercice
    */
-  nomSession: string;
+  nomExo: string;
 
   /**
    * Difficulté de l'exercice

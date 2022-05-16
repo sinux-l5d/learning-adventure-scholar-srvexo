@@ -8,27 +8,24 @@ import { envDependent } from '@helpers/env.helper';
  * Renvoie un exercice en fonction de son ID.
  *
  * @throws Error si l'exercice n'a pas été trouvé.
- * @todo filtrer les attributs de l'exercice qui ne servent pas (attributs spécifiques à BDD) (Document & Exo & _id -> Exo)
- * @todo gérer erreurs
- * @simplifié façon de renvoyer et généraliser
  */
 export const getExerciceCompletById = async (
   id: ExerciceComplet['id'],
 ): Promise<ExerciceComplet> => {
-  try {
-    // renvoie null si l'exo n'est pas trouvé.
-    // throw une exeption si le format n'est pas bon
-    const exo = await Exercice.findById(id).exec();
+  let exo;
 
-    if (exo) {
-      return exo;
-    }
+  // renvoie null si l'exo n'est pas trouvé.
+  // throw une exeption si le format de l'ID n'est pas bon
+  try {
+    exo = await Exercice.findById(id).exec();
   } catch {
-    throw new AppError(envDependent('', 'getExerciceCompletById: ') + 'Mauvais format', 400);
+    throw new AppError(envDependent('', 'getExerciceCompletById: ') + "Mauvais format d'ID", 400);
   }
 
-  // utilisation de envDependent pour modifier les erreurs en fonction du dev ou de la prod
-  throw new AppError(envDependent('', 'getExerciceCompletById: ') + 'Exercice not found', 404);
+  if (!exo)
+    throw new AppError(envDependent('', 'getExerciceCompletById: ') + 'Exercice non trouvé', 404);
+
+  return exo;
 };
 
 /**
@@ -45,7 +42,10 @@ export const getAllExercicesWithFilters = async (
   if (exercices && exercices.length != 0) {
     return exercices;
   }
-  throw new AppError(envDependent('', 'getAllExercicesWithFilters: ') + 'Exercices not found', 404);
+  throw new AppError(
+    envDependent('', 'getAllExercicesWithFilters: ') + 'Exercices non trouvé',
+    404,
+  );
 };
 
 /**
@@ -62,10 +62,18 @@ export const postNewExercices = async (
     return await Exercice.create(exercicesRecolted);
   } catch (error) {
     throw new AppError(
-      envDependent('', 'postNewExercice: ') +
-        'Error during the insertion of a new exercice : ' +
-        error,
-      404,
+      envDependent('', 'postNewExercice: ') + "Impossible d'ajouter un exercice : " + error,
+      400,
     );
   }
+};
+
+/**
+ * Renvoie true si un exercice existe pour cette ID
+ * @param id L'identifiant de l'exercice à vérifier
+ * @returns Vrai s'il existe, faux sinon
+ */
+export const exist = async (id: ExerciceComplet['id']): Promise<boolean> => {
+  const exo = await Exercice.exists({ _id: id });
+  return !!exo;
 };

@@ -1,10 +1,6 @@
 import { Router, RequestHandler } from 'express';
-import { StrategieService } from '@services/strategie.service';
 import { ExerciceService } from '@services/exercice.service';
-import { ResultatService } from '@services/resultat.service';
 import { convertFiltersExpressToMangoose } from '@helpers/convertFiltersExpressToMangoose';
-
-const exerciceRouter = Router();
 
 /**
  * Renvoie _un exercice en fonction des critères de recherche
@@ -20,8 +16,6 @@ const getExercicesWithFilters: RequestHandler = async (req, res, next) => {
     })
     .catch(next);
 };
-
-exerciceRouter.get('/one', getExercicesWithFilters);
 
 /**
  * Renvoie un exercice d'après son ID
@@ -49,29 +43,6 @@ const getExerciceCompletById: RequestHandler = (req, res, next) => {
  * @param next Function NextFunction d'Express. Fonction appelant le prochain middleware ou handleMiddlewareErrors si appellé avec un paramètre
  */
 
-const getExerciceCompletNext: RequestHandler = async (req, res, next) => {
-  const id = req.params.id;
-  // Demander au service sratégie l'id de l'exercice suivant
-  // Pour le moment pas de service stratégie donc codé en dur
-  StrategieService.callStrategieForNextId(id)
-    .then((idSuivant) => {
-      return ExerciceService.getExerciceCompletById(idSuivant);
-    })
-    .then((exoSuivant) => {
-      res.status(200).json({ exercice: exoSuivant });
-      // une fois l'exercice envoyé à l'étudiant, les données sont envoyées au service résultat
-      ResultatService.postExercicePourResultat(exoSuivant, 'etu', 'coursL3')
-        .then((success) => {
-          console.error(success);
-        })
-        .catch(next);
-    })
-    .catch(next);
-};
-
-exerciceRouter.get('/:id', getExerciceCompletById);
-exerciceRouter.get('/:id/next', getExerciceCompletNext);
-
 /**
  * Renvoie tous les exercices de la db
  *
@@ -86,8 +57,6 @@ const getAllExercicesWithFilters: RequestHandler = (req, res, next) => {
     })
     .catch(next);
 };
-
-exerciceRouter.get('/', getAllExercicesWithFilters);
 
 /**
  * Rajoute une liste d'exercices à la bdd
@@ -105,6 +74,10 @@ const postNewExercices: RequestHandler = (req, res, next) => {
     .catch(next);
 };
 
+const exerciceRouter = Router();
+exerciceRouter.get('/one', getExercicesWithFilters);
+exerciceRouter.get('/:id', getExerciceCompletById);
+exerciceRouter.get('/', getAllExercicesWithFilters);
 exerciceRouter.post('/', postNewExercices);
 
 export default exerciceRouter;
