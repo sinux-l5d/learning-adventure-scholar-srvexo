@@ -2,7 +2,7 @@ import { AppError } from '@helpers/AppError.helper';
 import { handleSeanceHeader, handleUserHeader } from '@middlewares/user.middleware';
 import { ResultatService } from '@services/resultat.service';
 import { SessionService } from '@services/session.service';
-import { SessionReq } from '@type/session/SessionReq';
+import { SeanceReq, SessionReq } from '@type/session/SessionReq';
 import { RequestHandler, Router } from 'express';
 
 /**
@@ -71,12 +71,12 @@ const getNextExerciceOfSession: RequestHandler = (req, res, next) => {
     .then((valide) => {
       if (!valide)
         throw new AppError(
-          `La séance '${req.seance}' (en header) n\'est pas dans la session '${idSession}'`,
+          `La séance '${req.seance}' (en header) n'est pas dans la session '${idSession}'`,
           400,
         );
     })
     .then(() => {
-      SessionService.getNextExerciceOfSession(idSession, idExercice)
+      SessionService.getNextExerciceOfSession(idSession, idExercice, req.seance!)
         .then((exerciceSuivant) => {
           res.status(200).json({ exerciceSuivant });
 
@@ -102,6 +102,19 @@ const getNextExerciceOfSession: RequestHandler = (req, res, next) => {
     .catch(next);
 };
 
+const modifierSeance: RequestHandler = (req, res, next) => {
+  const idSession = req.params.idSession;
+  const idSeance = req.params.idSeance;
+
+  const seance: SeanceReq = req.body;
+
+  SessionService.modifierSeance(idSession, idSeance, seance)
+    .then((session) => {
+      res.status(200).json({ session });
+    })
+    .catch(next);
+};
+
 const sessionRouter = Router();
 sessionRouter.get(
   '/:idSession/exercices/:idExercice/next',
@@ -109,6 +122,7 @@ sessionRouter.get(
   handleSeanceHeader,
   getNextExerciceOfSession,
 );
+sessionRouter.put('/:idSession/seances/:idSeance', modifierSeance);
 sessionRouter.get('/:id/exercices', getExercicesOfSession);
 sessionRouter.get('/:id', getSessionById);
 sessionRouter.get('/', getAllSessions);
