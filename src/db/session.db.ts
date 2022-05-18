@@ -31,6 +31,10 @@ const SessionSchema = new Schema({
     type: String,
     required: true,
   },
+  auteur: {
+    type: String,
+    required: true,
+  },
   seances: {
     type: [SeanceSchema],
     required: false,
