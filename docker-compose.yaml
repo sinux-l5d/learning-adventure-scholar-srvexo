@@ -1,6 +1,6 @@
 version: '3.3'
 services:
-  app:
+  srvexo:
     build: .
     restart: unless-stopped
     ports:
@@ -8,6 +8,7 @@ services:
     environment:
       APP_ROOT: '${APP_ROOT:-/}'
       STRAT_URL: ${STRAT_URL?error STRAT_URL is not set}
+      RESULT_URL: ${RESULT_URL?error RESULT_URL is not set}
       MONGO_APP_USER: '${MONGO_APP_USER?error MONGO_APP_USER is not set}'
       MONGO_APP_PWD: ${MONGO_APP_PWD?error MONGO_APP_PWD is not set}
       MONGO_DB_NAME: ${MONGO_DB_NAME?error MONGO_DB_NAME is not set}
@@ -16,6 +17,9 @@ services:
     depends_on:
       db:
         condition: service_healthy
+    networks:
+      - lawebnetwork
+      - db
 
   db:
     image: mongo:5.0.6
@@ -33,6 +37,13 @@ services:
       timeout: 10s
       retries: 5
       start_period: 20s
+    networks:
+      - db
 
 volumes:
   srvexo-data-db:
+
+networks:
+  lawebnetwork:
+    name: ${APP_NETWORK_NAME:-lawebnetwork} # force le nom du network
+  db:
