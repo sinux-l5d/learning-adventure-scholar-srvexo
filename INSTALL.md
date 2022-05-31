@@ -18,7 +18,7 @@
 
 1. Copier env.example.prod en .env et le remplir si besoin (normalement pas besoin avec docker)
 
-2. lancement les conteneurs (peut prendre jusqu'à 30 secondes)
+2. Lancement les conteneurs (peut prendre jusqu'à 30 secondes)
 
 ```bash
 docker-compose up
@@ -48,14 +48,18 @@ Pour l'installation sans docker, Il est nécessaire d'avoir installé une base d
 **Attention** : vérifier que la version de node (v16.13.2) est installée sur votre système.
 Utiliser nvm pour installer la version de node souhaitée si besoin (`nvm install && nvm use`).
 
-1. executer la commande suivante pour installer et/ou mettre a jour les dépendances :
+1. Executer la commande suivante pour installer et/ou mettre a jour les dépendances :
    `npm install`
 
-2. build le projet :
+2. Build le projet :
    `npm run build`
 
 3. Éventuellement, supprimer les dépendances de developpement :
    `rm -r node_modules && npm install --production`
 
-4. lancer le service :
+4. Lancer le service :
    `npm run start`
+
+### Pour le reverse proxy
+
+N'oubliez pas de passer les headers `X-Etudiant-ID` et `X-Seance-ID` à l'application.
