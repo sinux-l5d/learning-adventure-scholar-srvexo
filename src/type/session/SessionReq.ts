@@ -1,5 +1,3 @@
-import { ExerciceComplet } from '@type/exercice/ExerciceComplet';
-
 type ObjectId = string;
 
 /**
@@ -18,6 +16,8 @@ export type Seance = {
   encadrant: string;
 };
 
+export type SeanceReq = Partial<Omit<Seance, 'id'>>;
+
 /**
  * Requête de création d'une session.
  *
@@ -35,7 +35,7 @@ export type Seance = {
 export type SessionReq = {
   strategie: 'lineaire'; // ajouter des options avec |
   nom: string;
-  seances?: Array<Seance>;
+  seances: Array<Seance>;
   auteur: string;
   exercices: Array<ObjectId>;
 };

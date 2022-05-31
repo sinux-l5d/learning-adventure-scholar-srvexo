@@ -2,7 +2,7 @@ import { AppError } from '@helpers/AppError.helper';
 import * as repo from '@repositories/session.repo';
 import { ExerciceComplet } from '@type/exercice/ExerciceComplet';
 import { SessionComplet } from '@type/session/SessionComplet';
-import { Seance, SessionReq } from '@type/session/SessionReq';
+import { Seance, SeanceReq, SessionReq } from '@type/session/SessionReq';
 import { ExerciceService } from './exercice.service';
 import { StrategieService } from './strategie.service';
 
@@ -63,19 +63,29 @@ export class SessionService {
 
   /**
    * Renvoie l'exercice suivant d'une session, compte tenu de l'exercice en cours
-   * @param idSession - l'identifiant de la session
-   * @param idExercice - l'identifiant de l'exercice en cours,
+   * @param idSession l'identifiant de la session
+   * @param idExercice l'identifiant de l'exercice en cours, (peut être init si on veux le premier exercice)
+   * @param idSeance l'identifiant de la séance
    * @returns Le prochain exercice d'une session
    * @throws Error si le service stratégie n'est pas accessible
    */
   public static async getNextExerciceOfSession(
     idSession: SessionComplet['id'],
     idExercice: ExerciceComplet['id'] | 'init',
+    idSeance: Seance['id'],
   ): Promise<ExerciceComplet | undefined> {
     const session = await SessionService.getSessionById(idSession, true);
     const strategie = session.strategie;
     const exercices = session.exercices as ExerciceComplet[];
 
+    // On vérifie que la séance n'est pas terminer
+    const seance = session.seances.find((seance) => seance.id === idSeance);
+
+    if (!seance) throw new AppError("La séance n'existe pas", 404);
+
+    if (new Date() > seance.dateFin) throw new AppError('La séance est terminée', 400);
+
+    // On vérifie que l'exercice est dans la session
     let found = false;
     for (const exo of exercices) {
       if (exo.id === idExercice) {
@@ -84,6 +94,7 @@ export class SessionService {
       }
     }
 
+    // S'il ne n'est pas
     if (!found && idExercice !== 'init')
       throw new AppError(`L'exercice ${idExercice} n'est pas dans la session ${idSession}`, 404);
 
@@ -124,5 +135,23 @@ export class SessionService {
         return true;
 
     return false;
+  }
+
+  /**
+   * Modifie la seance dans la bdd avec les nouvelles données
+   * @param idSession - L'identifiant de la session
+   * @param idSeance - L'identifiant de la séance
+   * @param seance - Les nouvelles données de la séance
+   * @throws AppError si l'ID de la séance n'est pas dans la session
+   */
+  public static async modifierSeance(
+    idSession: SessionComplet['id'],
+    idSeance: Seance['id'],
+    seance: SeanceReq,
+  ): Promise<SessionComplet> {
+    if (!(await SessionService.seanceInSession(idSession, idSeance)))
+      throw new AppError(`La séance ${idSeance} n'est pas dans la session ${idSession}`, 404);
+
+    return repo.modifierSeance(idSession, idSeance, seance);
   }
 }
