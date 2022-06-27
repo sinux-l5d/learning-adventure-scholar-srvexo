@@ -1,5 +1,3 @@
-import { Test } from './Test';
-
 /**
  * Forme d'un exercice complet
  */
@@ -28,7 +26,6 @@ export type ExerciceComplet = {
    * Difficulté de l'exercice
    *
    * La difficulté est comprise entre 1 et 10 inclus
-   *
    */
   difficulte: number;
 
@@ -59,7 +56,7 @@ export type ExerciceComplet = {
    * Data set de l'exercice.
    * Contient le contexte et les jeux de tests de l'exercice
    */
-  dataset: Array<{ contexte: string; jeuDeTests: Array<Test> }>;
+  contexte: Record<string, unknown>;
 
   /**
    * Correction de l'exercice

@@ -1,5 +1,3 @@
-import { Test } from './Test';
-
 /**
  * Forme d'un exercice complet
  */
@@ -38,7 +36,6 @@ export type ExercicePourResultat = {
    * Difficulté de l'exercice
    *
    * La difficulté est comprise entre 1 et 10 inclus
-   *
    */
   difficulte: number;
 

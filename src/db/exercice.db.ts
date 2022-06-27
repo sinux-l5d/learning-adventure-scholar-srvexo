@@ -52,17 +52,8 @@ const ExerciceSchema = new Schema<ExerciceComplet>({
   tempsMaximum: {
     type: Number,
   },
-  dataset: {
-    type: [
-      {
-        context: {
-          type: String,
-        },
-        jeuDeTests: {
-          type: [TestSchema],
-        },
-      },
-    ],
+  contexte: {
+    type: Object,
   },
   correction: {
     type: String,
