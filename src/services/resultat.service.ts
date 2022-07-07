@@ -9,7 +9,6 @@ import { SessionService } from './session.service';
  */
 export class ResultatService {
   /**
-   *
    * @param exo sous sa forme complete.
    * @returns un exercice compatible avec ExercicePourResultat
    * @throws Error (TODO)
@@ -66,5 +65,24 @@ export class ResultatService {
     );
     // propage l'erreur s'il y en a une
     await axios.post(`${config.RESULT_URL}/exercices`, resJSON);
+  }
+
+  public static async postTentativePourResultat(
+    idEtu: string,
+    idExo: string,
+    idSession: string,
+    reponseEtudiant: string,
+    logs: string,
+    status: string,
+  ) {
+    await axios.post(`${config.RESULT_URL}/tentatives`, {
+      idEtu,
+      idExo,
+      idSession,
+      reponseEtudiant,
+      logErreurs: logs, // bad name
+      validationExercice: status === 'ok',
+      dateSoumission: new Date().toISOString(),
+    });
   }
 }

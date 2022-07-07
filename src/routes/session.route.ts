@@ -132,8 +132,27 @@ const addTentative: RequestHandler = (req, res, next) => {
       }
     })
     .then(() => {
-      ExecutionService.execute(req.body.reponse, idExercice);
-      // TODO AJOUTER SOUMISSION SRVRESULT +
+      SessionService.seanceOuverte(idSession, req.seance!)
+        .then(({ open, error }) => {
+          if (!open) {
+            throw error;
+          }
+          ExecutionService.execute(req.body.reponse, idExercice)
+            .then((resp) => {
+              res.status(resp.statusCode).json(resp);
+              // notifier le service résultat
+              ResultatService.postTentativePourResultat(
+                req.user!,
+                idExercice,
+                idSession,
+                req.body.reponse,
+                resp.output,
+                resp.status,
+              );
+            })
+            .catch(next);
+        })
+        .catch(next);
     })
     .catch(next);
 };
