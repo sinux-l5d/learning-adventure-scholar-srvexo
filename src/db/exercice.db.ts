@@ -35,7 +35,8 @@ const ExerciceSchema = new Schema<ExerciceComplet>({
     type: Number,
   },
   contexte: {
-    type: Object,
+    type: Map,
+    of: Object,
   },
   correction: {
     type: String,
