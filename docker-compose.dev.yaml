@@ -2,7 +2,6 @@ version: '3.3'
 services:
   db:
     image: mongo:5.0.6
-    restart: unless-stopped
     ports:
       - '$MONGO_PORT_EXT:27017'
     volumes:
@@ -23,7 +22,6 @@ services:
 
   db-gui:
     image: mongo-express:latest
-    restart: unless-stopped
     depends_on:
       db:
         condition: service_healthy

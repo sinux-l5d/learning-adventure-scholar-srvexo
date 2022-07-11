@@ -54,9 +54,11 @@ export class SessionService {
   public static async addSession(session: SessionReq, populate = false): Promise<SessionComplet> {
     const exercices = session.exercices;
 
-    for (const id of exercices)
-      if (!(await ExerciceService.exist(id)))
+    for (const id of exercices) {
+      if (!(await ExerciceService.exist(id))) {
         throw new AppError(`L'exercice ${id} n'existe pas`, 404);
+      }
+    }
 
     return await repo.addSession(session, populate);
   }
@@ -79,11 +81,11 @@ export class SessionService {
     const exercices = session.exercices as ExerciceComplet[];
 
     // On vérifie que la séance n'est pas terminer
-    const seance = session.seances.find((seance) => seance.id === idSeance);
+    const { open, error } = await SessionService.seanceOuverte(idSession, idSeance);
 
-    if (!seance) throw new AppError("La séance n'existe pas", 404);
-
-    if (new Date() > seance.dateFin) throw new AppError('La séance est terminée', 400);
+    if (!open) {
+      throw error;
+    }
 
     // On vérifie que l'exercice est dans la session
     let found = false;
@@ -95,8 +97,9 @@ export class SessionService {
     }
 
     // S'il ne n'est pas
-    if (!found && idExercice !== 'init')
+    if (!found && idExercice !== 'init') {
       throw new AppError(`L'exercice ${idExercice} n'est pas dans la session ${idSession}`, 404);
+    }
 
     const nextExo = await StrategieService.getNextExercice(
       strategie,
@@ -105,6 +108,32 @@ export class SessionService {
     );
 
     return nextExo;
+  }
+
+  /* Renvoie true si la séance est ouverte, false et une erreur si la séance est terminée
+   */
+  public static async seanceOuverte(
+    idSession: SessionComplet['id'],
+    idSeance: Seance['id'],
+  ): Promise<{ open: true; error: undefined } | { open: false; error: AppError }> {
+    const session = await SessionService.getSessionById(idSession, true);
+    const seance = session.seances.find((seance) => seance.id === idSeance);
+
+    if (!seance) {
+      return {
+        open: false,
+        error: new AppError("La séance n'existe pas", 404),
+      };
+    }
+
+    if (new Date() > seance.dateFin) {
+      return {
+        open: false,
+        error: new AppError('La séance est terminée', 400),
+      };
+    }
+
+    return { open: true, error: undefined };
   }
 
   /**
@@ -129,10 +158,11 @@ export class SessionService {
 
     if (!seances) return false;
 
-    // prettier-ignore
-    for (const seance of seances) 
-      if (seance.id === idSeance) 
+    for (const seance of seances) {
+      if (seance.id === idSeance) {
         return true;
+      }
+    }
 
     return false;
   }
@@ -149,8 +179,9 @@ export class SessionService {
     idSeance: Seance['id'],
     seance: SeanceReq,
   ): Promise<SessionComplet> {
-    if (!(await SessionService.seanceInSession(idSession, idSeance)))
+    if (!(await SessionService.seanceInSession(idSession, idSeance))) {
       throw new AppError(`La séance ${idSeance} n'est pas dans la session ${idSession}`, 404);
+    }
 
     return repo.modifierSeance(idSession, idSeance, seance);
   }
