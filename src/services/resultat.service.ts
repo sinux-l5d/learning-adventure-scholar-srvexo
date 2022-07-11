@@ -29,6 +29,7 @@ export class ResultatService {
       idExo: exo['id'],
       idSession: ses,
       idSeance: seance,
+      enonce: exo['enonce'],
       nomSession: nomSession,
       nomExo: exo['nom'],
       langage: exo['langage'],
