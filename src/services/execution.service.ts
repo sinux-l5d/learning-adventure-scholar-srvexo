@@ -1,7 +1,7 @@
-import config from "@config";
-import { ExerciceComplet } from "@type/exercice/ExerciceComplet";
-import axios from "axios";
-import { ExerciceService } from "./exercice.service";
+import config from '@config';
+import { ExerciceComplet } from '@type/exercice/ExerciceComplet';
+import axios from 'axios';
+import { ExerciceService } from './exercice.service';
 
 export class ExecutionService {
   private static api = axios.create({
@@ -13,7 +13,7 @@ export class ExecutionService {
 
   public static async execute(
     code: string,
-    idExo: ExerciceComplet["id"],
+    idExo: ExerciceComplet['id'],
   ): Promise<{ status: string; statusCode: number; output: string }> {
     const exercice = await ExerciceService.getExerciceCompletById(idExo);
     const res = await this.api.post(`${config.EXEC_URL}/exec`, {
