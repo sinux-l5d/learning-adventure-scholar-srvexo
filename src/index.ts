@@ -17,6 +17,16 @@ mongoose.connect(uri, {}, function (error) {
 
 /** Port de l'application */
 const port: number = Number(config.APP_PORT_EXT) || 3000;
-app.listen(port, () => {
+const server = app.listen(port, () => {
   console.log('Server is running on port ' + port + ' in ' + config.NODE_ENV + ' mode');
+});
+
+process.on('SIGTERM', () => {
+  console.log('SIGTERM signal received.');
+  server.close(() => {
+    console.log('Server closed.');
+  });
+  mongoose.connection.close(() => {
+    console.log('Mongoose connection closed.');
+  });
 });
