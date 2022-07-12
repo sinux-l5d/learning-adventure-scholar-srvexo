@@ -1,5 +1,6 @@
 import { AppError } from '@helpers/AppError.helper';
 import { handleSeanceHeader, handleUserHeader } from '@middlewares/user.middleware';
+import { ExecutionService } from '@services/execution.service';
 import { ResultatService } from '@services/resultat.service';
 import { SessionService } from '@services/session.service';
 import { SeanceReq, SessionReq } from '@type/session/SessionReq';
@@ -69,11 +70,12 @@ const getNextExerciceOfSession: RequestHandler = (req, res, next) => {
   // req.seance est défini par le middleware handleSeanceHeader, on force le type à non null
   SessionService.seanceInSession(idSession, req.seance!)
     .then((valide) => {
-      if (!valide)
+      if (!valide) {
         throw new AppError(
           `La séance '${req.seance}' (en header) n'est pas dans la session '${idSession}'`,
           400,
         );
+      }
     })
     .then(() => {
       SessionService.getNextExerciceOfSession(idSession, idExercice, req.seance!)
@@ -84,8 +86,7 @@ const getNextExerciceOfSession: RequestHandler = (req, res, next) => {
           if (!exerciceSuivant) return;
 
           // Une fois l'exercice envoyé à l'étudiant, les données sont envoyées au service résultat
-          // req.user est défini par le middleware handleUserHeader, on force le type à non null
-          // req.seance est défini par le middleware handleSeanceHeader, on force le type à non null
+          // req.user et req.seance sont défini par le middleware handleUserHeader, on force le type à non null
           ResultatService.postExercicePourResultat(
             exerciceSuivant,
             req.user!,
@@ -115,12 +116,59 @@ const modifierSeance: RequestHandler = (req, res, next) => {
     .catch(next);
 };
 
+const addTentative: RequestHandler = (req, res, next) => {
+  const idSession = req.params.idSession;
+  const idExercice = req.params.idExercice;
+
+  // @TODO: VERIFIER SI DROIT DE SOUMETTRE
+  // req.seance est défini par le middleware handleSeanceHeader, on force le type à non null
+  SessionService.seanceInSession(idSession, req.seance!)
+    .then((valide) => {
+      if (!valide) {
+        throw new AppError(
+          `La séance '${req.seance}' (en header) n'est pas dans la session '${idSession}'`,
+          400,
+        );
+      }
+    })
+    .then(() => {
+      SessionService.seanceOuverte(idSession, req.seance!)
+        .then(({ open, error }) => {
+          if (!open) {
+            throw error;
+          }
+          ExecutionService.execute(req.body.reponse, idExercice)
+            .then((resp) => {
+              res.status(resp.statusCode).json(resp);
+              // notifier le service résultat
+              ResultatService.postTentativePourResultat(
+                req.user!,
+                idExercice,
+                idSession,
+                req.body.reponse,
+                resp.output,
+                resp.status,
+              );
+            })
+            .catch(next);
+        })
+        .catch(next);
+    })
+    .catch(next);
+};
+
 const sessionRouter = Router();
 sessionRouter.get(
   '/:idSession/exercices/:idExercice/next',
   handleUserHeader,
   handleSeanceHeader,
   getNextExerciceOfSession,
+);
+sessionRouter.post(
+  '/:idSession/exercices/:idExercice/tentative',
+  handleUserHeader,
+  handleSeanceHeader,
+  addTentative,
 );
 sessionRouter.put('/:idSession/seances/:idSeance', modifierSeance);
 sessionRouter.get('/:id/exercices', getExercicesOfSession);

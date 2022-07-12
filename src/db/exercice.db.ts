@@ -1,23 +1,5 @@
 import { ExerciceComplet } from '@type/exercice/ExerciceComplet';
-import { Test } from '@type/exercice/Test';
 import { model, Schema } from 'mongoose';
-
-/**
- * Schéma d'un test en base de donnée.
- * Utilisé dans ExerciceSchema.
- */
-const TestSchema = new Schema<Test>({
-  parametres: [
-    {
-      nomType: String,
-      valeur: String,
-    },
-  ],
-  reponse: {
-    nomType: String,
-    valeur: String,
-  },
-});
 
 /**
  * Schéma d'un exercice en base de donnée.
@@ -52,17 +34,9 @@ const ExerciceSchema = new Schema<ExerciceComplet>({
   tempsMaximum: {
     type: Number,
   },
-  dataset: {
-    type: [
-      {
-        context: {
-          type: String,
-        },
-        jeuDeTests: {
-          type: [TestSchema],
-        },
-      },
-    ],
+  contexte: {
+    type: Map,
+    of: Object,
   },
   correction: {
     type: String,
@@ -80,7 +54,7 @@ const ExerciceSchema = new Schema<ExerciceComplet>({
   },
 });
 
-[ExerciceSchema, TestSchema].forEach((schema) => {
+[ExerciceSchema].forEach((schema) => {
   // Enlève les propriétés non voulu lorsque l'on transforme en JSON
   schema.set('toJSON', {
     // pour avoir `id`, alias natif de `_id`. virtual = alias

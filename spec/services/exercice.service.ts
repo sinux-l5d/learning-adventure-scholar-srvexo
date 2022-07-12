@@ -2,8 +2,6 @@ import { ExerciceService } from '@services/exercice.service';
 import * as repo from '@repositories/exercice.repo';
 import { AppError } from '@helpers/AppError.helper';
 import { ExerciceComplet } from '@type/exercice/ExerciceComplet';
-import exp from 'constants';
-import { Exercice } from '@db/exercice.db';
 
 jest.mock('@repositories/exercice.repo');
 
@@ -19,7 +17,7 @@ const exercices = [
     correction: 'blabla',
     aides: [],
     auteurs: ['Polux', 'Sinux'],
-    dataset: [],
+    contexte: {},
     enonce: 'blabla',
     template: 'blabla',
   },
@@ -32,7 +30,7 @@ const exercices = [
     correction: 'blabla',
     aides: [],
     auteurs: ['Cam', 'Leon', 'Polux'],
-    dataset: [],
+    contexte: {},
     enonce: 'blabla',
     template: 'blabla',
   },
@@ -45,7 +43,7 @@ const exercices = [
     correction: 'blabla',
     aides: [],
     auteurs: ['Gi', 'Raphe', 'Polux'],
-    dataset: [],
+    contexte: {},
     enonce: 'blabla',
     template: 'blabla',
   },
@@ -61,7 +59,7 @@ const exercicesAvecFiltres = [
     correction: 'blabla',
     aides: [],
     auteurs: ['Cam', 'Leon', 'Polux'],
-    dataset: [],
+    contexte: {},
     enonce: 'blabla',
     template: 'blabla',
   },
@@ -74,7 +72,7 @@ const exercicesAvecFiltres = [
     correction: 'blabla',
     aides: [],
     auteurs: ['Gi', 'Raphe', 'Polux'],
-    dataset: [],
+    contexte: {},
     enonce: 'blabla',
     template: 'blabla',
   },
@@ -94,7 +92,7 @@ const newListeExerciceSingle: Omit<ExerciceComplet, 'id'>[] = [
     auteurs: ['Le Mathématicien refoulé du groupe', 'Jacques-Olivier Lachaud'],
     enonce:
       "Ecrivez un programme qui imprime dans un fichier la séquence de van erk (voir le lien : https://www.youtube.com/watch?v=etMJxB-igrc&pp=ugMICgJmchABGAE%3D). Le fichier pour K_MAX = 5 doit contenir '0, 0, 1, 0, 2, '",
-    dataset: [],
+    contexte: {},
   },
 ];
 
@@ -113,7 +111,7 @@ const newListeExerciceSingleResolved: ExerciceComplet[] = [
     auteurs: ['Le Mathématicien refoulé du groupe', 'Jacques-Olivier Lachaud'],
     enonce:
       "Ecrivez un programme qui imprime dans un fichier la séquence de van erk (voir le lien : https://www.youtube.com/watch?v=etMJxB-igrc&pp=ugMICgJmchABGAE%3D). Le fichier pour K_MAX = 5 doit contenir '0, 0, 1, 0, 2, '",
-    dataset: [],
+    contexte: {},
   },
 ];
 
@@ -131,7 +129,7 @@ const newListeExerciceMultiple: Omit<ExerciceComplet, 'id'>[] = [
     auteurs: ['Le Mathématicien refoulé du groupe', 'Jacques-Olivier Lachaud'],
     enonce:
       "Ecrivez un programme qui imprime dans un fichier la séquence de van erk (voir le lien : https://www.youtube.com/watch?v=etMJxB-igrc&pp=ugMICgJmchABGAE%3D). Le fichier pour K_MAX = 5 doit contenir '0, 0, 1, 0, 2, '",
-    dataset: [],
+    contexte: {},
   },
   {
     nom: 'Hello World',
@@ -141,7 +139,7 @@ const newListeExerciceMultiple: Omit<ExerciceComplet, 'id'>[] = [
     correction: 'blabla',
     aides: [],
     auteurs: ['Gi', 'Raphe', 'Polux'],
-    dataset: [],
+    contexte: {},
     enonce: 'blabla',
     template: 'blabla',
   },
@@ -162,7 +160,7 @@ const newListeExerciceMultipleResolved: ExerciceComplet[] = [
     auteurs: ['Le Mathématicien refoulé du groupe', 'Jacques-Olivier Lachaud'],
     enonce:
       "Ecrivez un programme qui imprime dans un fichier la séquence de van erk (voir le lien : https://www.youtube.com/watch?v=etMJxB-igrc&pp=ugMICgJmchABGAE%3D). Le fichier pour K_MAX = 5 doit contenir '0, 0, 1, 0, 2, '",
-    dataset: [],
+    contexte: {},
   },
   {
     id: '48ef18af84f78q84dza849',
@@ -173,7 +171,7 @@ const newListeExerciceMultipleResolved: ExerciceComplet[] = [
     correction: 'blabla',
     aides: [],
     auteurs: ['Gi', 'Raphe', 'Polux'],
-    dataset: [],
+    contexte: {},
     enonce: 'blabla',
     template: 'blabla',
   },
